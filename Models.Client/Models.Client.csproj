@@ -5,10 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
-    <Folder Include="Mappers\" />
-    <Folder Include="Services\" />
-    <Folder Include="Repositories\" />
+    <ProjectReference Include="..\Models.Global\Models.Global.csproj" />
   </ItemGroup>
 
 </Project>
