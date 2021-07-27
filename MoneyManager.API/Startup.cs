@@ -7,10 +7,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using ModelsAPI.Client.Repositories;
+using ModelsAPI.Client.Services;
+using GR = ModelsAPI.Global.Repositories;
+using GS = ModelsAPI.Global.Services;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Tools.Connections.Database;
 
 namespace MoneyManager.API
 {
@@ -32,6 +38,10 @@ namespace MoneyManager.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MoneyManager.API", Version = "v1" });
             });
+            services.AddSingleton(sp => new Connection(SqlClientFactory.Instance, Configuration.GetConnectionString("MoneyManagerDB")));
+            services.AddSingleton<GR.ICategoryRepository, GS.CategoryService>();
+            services.AddSingleton<ICategoryRepository, CategoryService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
