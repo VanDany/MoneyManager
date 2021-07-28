@@ -17,6 +17,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Tools.Connections.Database;
+using MoneyManager.API.Infrastructure.Security;
 
 namespace MoneyManager.API
 {
@@ -39,8 +40,11 @@ namespace MoneyManager.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MoneyManager.API", Version = "v1" });
             });
             services.AddSingleton(sp => new Connection(SqlClientFactory.Instance, Configuration.GetConnectionString("MoneyManagerDB")));
+            services.AddSingleton<GR.IAuthRepository, GS.AuthService>();
             services.AddSingleton<GR.ICategoryRepository, GS.CategoryService>();
             services.AddSingleton<ICategoryRepository, CategoryService>();
+            services.AddSingleton<IAuthRepository, AuthService>();
+            services.AddSingleton<ITokenRepository, TokenService>();
 
         }
 

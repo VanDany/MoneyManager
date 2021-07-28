@@ -26,12 +26,12 @@ namespace Models.Client.Mappers
         }
         internal static User ToClient(this G.User entity)
         {
-            return new User(entity.Id, entity.Username, entity.EmailAddress, entity.Token);
+            return new User(entity.Id, entity.Username, entity.EmailAddress, entity.Xp, entity.Level, entity.Token);
         }
 
         internal static G.User ToGlobal(this User entity)
         {
-            return new G.User() { Id = entity.Id, Username = entity.Username, EmailAddress = entity.EmailAddress, Password = entity.Password, Token = entity.Token };
+            return new G.User() { Id = entity.Id, Username = entity.Username, EmailAddress = entity.EmailAddress, Password = entity.Password, Xp = entity.Xp, Level = entity.Level, Token = entity.Token };
         }
     }
 }

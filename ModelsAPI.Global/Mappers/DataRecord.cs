@@ -10,6 +10,16 @@ namespace ModelsAPI.Global.Mappers
 {
     internal static class DataRecord
     {
+        internal static User ToUser(this IDataRecord dataRecord)
+        {
+            return new User()
+            {
+                Id = (int)dataRecord["Id"],
+                Username = (string)dataRecord["Username"],
+                EmailAddress = (string)dataRecord["EmailAddress"],
+                Password = null
+            };
+        }
         internal static Category ToCategory(this IDataRecord dataRecord)
         {
             return new Category()

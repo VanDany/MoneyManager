@@ -10,6 +10,23 @@ namespace ModelsAPI.Client.Mappers
 {
     internal static class Mappers
     {
+        internal static G.User ToGlobal(this User entity)
+        {
+            return new G.User()
+            {
+                Id = entity.Id,
+                Username = entity.Username,
+                EmailAddress = entity.EmailAddress,
+                Password = entity.Password,
+                Xp = entity.Xp,
+                Level = entity.Level
+            };
+        }
+
+        internal static User ToClient(this G.User entity)
+        {
+            return new User(entity.Id, entity.Username, entity.EmailAddress, entity.Xp, entity.Level);
+        }
         internal static G.Category ToGlobal(this Category entity)
         {
             return new G.Category()

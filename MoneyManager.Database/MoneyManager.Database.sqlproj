@@ -59,14 +59,21 @@
     <Folder Include="Tables" />
     <Folder Include="Scripts" />
     <Folder Include="Programmability" />
+    <Folder Include="Programmability\Procedures" />
+    <Folder Include="Programmability\Functions" />
+    <Folder Include="Programmability\Functions\Scalar" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\UserAccount.sql" />
     <Build Include="Tables\Transaction.sql" />
     <Build Include="Tables\Category.sql" />
     <Build Include="Tables\User.sql" />
-    <Build Include="Programmability\MMSP_AddCategory.sql" />
-    <Build Include="Programmability\MMSP_DeleteCategory.sql" />
+    <Build Include="Programmability\Procedures\MMSP_AddCategory.sql" />
+    <Build Include="Programmability\Procedures\MMSP_DeleteCategory.sql" />
+    <Build Include="Programmability\Functions\Scalar\MMSF_GetPostSalt.sql" />
+    <Build Include="Programmability\Functions\Scalar\MMSF_GetPreSalt.sql" />
+    <Build Include="Programmability\Procedures\MMSP_AuthUser.sql" />
+    <Build Include="Programmability\Procedures\MMSP_RegisterUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MoneyManager.Database.refactorlog" />

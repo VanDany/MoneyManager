@@ -23,7 +23,7 @@ namespace MoneyManager.Website.Infrastructure.Security
 
                 if (sessionManager.User is not null)
                 {
-                    context.Result = new RedirectToActionResult("Index", "Contact", null);
+                    context.Result = new RedirectToActionResult("Index", "Category", null);
                 }
             }
         }

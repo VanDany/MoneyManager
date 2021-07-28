@@ -31,10 +31,10 @@ namespace Models.Global.Services
 
         public void Register(User user)
         {
-            string json = JsonSerializer.Serialize(user);
+            string json = JsonSerializer.Serialize(new { user.Username, user.EmailAddress, user.Password });
             HttpContent httpContent = new StringContent(json);
             httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            HttpResponseMessage httpResponseMessage = _httpClient.PostAsync("api/auth/login", httpContent).Result;
+            HttpResponseMessage httpResponseMessage = _httpClient.PostAsync("api/auth/register", httpContent).Result;
             httpResponseMessage.EnsureSuccessStatusCode();
         }
     }
