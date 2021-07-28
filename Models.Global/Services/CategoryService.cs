@@ -1,4 +1,5 @@
 ﻿using Models.Global.Data;
+using Models.Global.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace Models.Global.Services
 {
-    public class CategoryService
+    public class CategoryService : ICategoryRepository
     {
         private HttpClient CreateHttpClient()
         {
             return new HttpClient()
             {
-                BaseAddress = new Uri("https://localhost:44341/")
+                BaseAddress = new Uri("https://localhost:44384/")
             };
         }
         public IEnumerable<Category> Get()

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Models.Client.Services
 {
-    public class CategoryService
+    public class CategoryService : ICategoryRepository
     {
         private readonly GR.ICategoryRepository _globalRepository;
 
