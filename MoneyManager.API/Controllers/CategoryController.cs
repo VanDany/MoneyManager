@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ModelsAPI.Client.Data;
 using ModelsAPI.Client.Repositories;
+using MoneyManager.API.Infrastructure.Security;
 using MoneyManager.API.Models.Forms;
 using System;
 using System.Collections.Generic;
@@ -13,13 +14,10 @@ namespace MoneyManager.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AuthRequired]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryRepository _category;
-        //private int UserId
-        //{
-        //    get { return (int)ControllerContext.RouteData.Values["userid"]; }
-        //}
 
         public CategoryController(ICategoryRepository category)
         {
@@ -28,14 +26,14 @@ namespace MoneyManager.API.Controllers
 
 
         // GET: api/<CategoryController>/1
-        [HttpGet("{userid}")]
+        [HttpGet("{userId}")]
         public IEnumerable<Category> Get(int userId)
         {
             return _category.Get(userId);
         }
 
         // GET api/<CategoryController>/1/1
-        [HttpGet("{userid}/{id}")]
+        [HttpGet("{userId}/{id}")]
         public Category Get(int userId, int id)
         {
             return _category.GetCat(userId, id);
@@ -73,8 +71,8 @@ namespace MoneyManager.API.Controllers
             return Ok();
         }
 
-        //// DELETE api/<CategoryController>/5
-        [HttpDelete("{userid}/{id}")]
+        //DELETE api/<CategoryController>/5
+        [HttpDelete("{userId}/{id}")]
         public IActionResult Delete(int userId, int id)
         {
             _category.Delete(userId, id);

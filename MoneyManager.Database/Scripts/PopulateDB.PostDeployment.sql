@@ -9,8 +9,8 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-SET IDENTITY_INSERT [Category] ON;
-INSERT INTO [Category] ([Id], [Name], [UserId]) VALUES (1, 'Loyer', 1);
-INSERT INTO [Category] ([Id], [Name], [UserId]) VALUES (2, 'Alimentation', 1);
-INSERT INTO [Category] ([Id], [Name], [BudgetLimit], [UserId]) VALUES (3, 'Loisirs', 100, 1);
-SET IDENTITY_INSERT [Category] OFF;
+--SET IDENTITY_INSERT [Category] ON;
+--INSERT INTO [Category] ([Id], [Name], [UserId]) VALUES (1, 'Loyer', 1);
+--INSERT INTO [Category] ([Id], [Name], [UserId]) VALUES (2, 'Alimentation', 1);
+--INSERT INTO [Category] ([Id], [Name], [BudgetLimit], [UserId]) VALUES (3, 'Loisirs', 100, 1);
+--SET IDENTITY_INSERT [Category] OFF;

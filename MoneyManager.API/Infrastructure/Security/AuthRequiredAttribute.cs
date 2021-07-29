@@ -36,8 +36,6 @@ namespace MoneyManager.API.Infrastructure.Security
                     context.Result = new UnauthorizedResult();
                     return;
                 }
-
-                context.RouteData.Values["userId"] = user.Id;
             }
         }
     }

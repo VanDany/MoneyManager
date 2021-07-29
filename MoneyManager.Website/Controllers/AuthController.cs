@@ -48,7 +48,7 @@ namespace MoneyManager.Website.Controllers
             }
             _sessionManager.User = new UserSession() { Id = user.Id, Username = user.Username, EmailAddress = user.EmailAddress, Token = user.Token };
 
-            return RedirectToAction("Index", "Contact");
+            return RedirectToAction("Index", "Category");
         }
 
         [AnonymousRequired]

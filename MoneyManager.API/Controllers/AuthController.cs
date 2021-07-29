@@ -29,7 +29,7 @@ namespace MoneyManager.API.Controllers
             User user = _authRepository.Login(form.Email, form.Password);
 
             if (user is null)
-                return Unauthorized(new { Error = "mail ou mot de passe invalide!" });
+                return Unauthorized(new { Error = "mail ou mot de passe invalide" });
 
             user.Token = _tokenRepository.GenerateToken(new TokenUser() { Id = user.Id, Username = user.Username, EmailAddress = user.EmailAddress });
 

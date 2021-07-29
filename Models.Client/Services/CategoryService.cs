@@ -13,7 +13,6 @@ namespace Models.Client.Services
     public class CategoryService : ICategoryRepository
     {
         private readonly GR.ICategoryRepository _globalRepository;
-
         public CategoryService(GR.ICategoryRepository globalRepository)
         {
             _globalRepository = globalRepository;
@@ -26,17 +25,14 @@ namespace Models.Client.Services
         {
             _globalRepository.Insert(category.ToGlobal());
         }
-
         public void Update(int id, Category category)
         {
             _globalRepository.Update(id, category.ToGlobal());
         }
-
         public void Delete(int userId, int id)
         {
             _globalRepository.Delete(userId, id);
         }
-
         public Category GetCat(int userId, int id)
         {
             return _globalRepository.GetCat(userId, id)?.ToClient();

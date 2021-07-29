@@ -28,6 +28,7 @@ namespace Models.Client.Data
             : this(name, budgetLimit, userId)
         {
             Id = id;
+            UserId = userId;
         }
     }
 }

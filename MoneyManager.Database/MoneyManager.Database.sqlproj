@@ -74,6 +74,7 @@
     <Build Include="Programmability\Functions\Scalar\MMSF_GetPreSalt.sql" />
     <Build Include="Programmability\Procedures\MMSP_AuthUser.sql" />
     <Build Include="Programmability\Procedures\MMSP_RegisterUser.sql" />
+    <Build Include="Programmability\Procedures\MMSP_AddTransaction.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MoneyManager.Database.refactorlog" />
