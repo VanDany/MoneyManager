@@ -20,14 +20,17 @@ namespace ModelsAPI.Global.Services
         }
         public IEnumerable<Transaction> Get(int userAccountId)
         {
-            Command command = new Command("Select Id, UserAccount, DateTransact, Description, ExpenseOrIncome, Amount, CategoryId From Transaction WHERE UserAccountId = @UserAccountId;", false);
+            Command command = new Command("Select Id, UserAccountId, DateTransact, Description, ExpenseOrIncome, Amount, CategoryId From Transaction WHERE UserAccountId = @UserAccountId;", false);
             command.AddParameter("UserAccountId", userAccountId);
             return _connection.ExecuteReader(command, dr => dr.ToTransaction());
         }
 
-        public Transaction GetTransact(int userId, int id)
+        public Transaction GetTransact(int userAccountId, int id)
         {
-            throw new NotImplementedException();
+            Command command = new Command("Select Id, UserAccountId, DateTransact, Description, ExpenseOrIncome, Amount, CategoryId From Transaction WHERE UserAccountId = @UserAccountId AND Id = @Id;", false);
+            command.AddParameter("Id", id);
+            command.AddParameter("UserAccountId", userAccountId);
+            return _connection.ExecuteReader(command, dr => dr.ToTransaction()).SingleOrDefault();
         }
 
         public void Insert(Transaction transact)

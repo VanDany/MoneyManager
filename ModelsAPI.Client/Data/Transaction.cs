@@ -15,5 +15,21 @@ namespace ModelsAPI.Client.Data
         public bool ExpenseOrIncome { get; set; }
         public double Amount { get; set; }
         public int CategoryId { get; set; }
+        public Transaction(int userAccountId, DateTime dateTransact, string description, bool expenseOrIncome, double amount, int categoryId)
+        {
+            UserAccountId = userAccountId;
+            DateTransact = dateTransact;
+            Description = description;
+            ExpenseOrIncome = expenseOrIncome;
+            Amount = amount;
+            CategoryId = categoryId;
+        }
+        internal Transaction(int id, int userAccountId, DateTime dateTransact, string description, bool expenseOrIncome, double amount, int categoryId)
+            :this(userAccountId, dateTransact, description, expenseOrIncome, amount, categoryId)
+        {
+            Id = id;
+        }
+
     }
+    
 }

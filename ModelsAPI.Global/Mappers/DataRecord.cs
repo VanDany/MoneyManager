@@ -26,8 +26,7 @@ namespace ModelsAPI.Global.Mappers
             {
                 Id = (int)dataRecord["Id"],
                 Name = (string)dataRecord["Name"],
-                BudgetLimit = (dataRecord["BudgetLimit"] is DBNull)?null:(double?)dataRecord["BudgetLimit"],
-                UserId = (int)dataRecord["UserId"]
+                BudgetLimit = (dataRecord["BudgetLimit"] is DBNull)?null:(double?)dataRecord["BudgetLimit"]
             };
         }
         internal static Transaction ToTransaction(this IDataRecord dataRecord)
@@ -37,7 +36,7 @@ namespace ModelsAPI.Global.Mappers
                 Id = (int)dataRecord["Id"],
                 UserAccountId = (int)dataRecord["UserAccountId"],
                 DateTransact = (DateTime)dataRecord["DateTransact"],
-                Description = (dataRecord["Description"] is DBNull)?null:(string)dataRecord["Description"],
+                Description= (dataRecord["Description"] is DBNull) ? null : (string)dataRecord["Description"],
                 ExpenseOrIncome = (bool)dataRecord["ExpenseOrIncome"],
                 Amount = (double)dataRecord["Amount"],
                 CategoryId = (int)dataRecord["CategoryId"]
