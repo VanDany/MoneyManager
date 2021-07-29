@@ -18,9 +18,9 @@ namespace ModelsAPI.Client.Services
         {
             _globalRepository = globalRepository;
         }
-        public IEnumerable<Category> Get()
+        public IEnumerable<Category> Get(int userId)
         {
-            return _globalRepository.Get().Select(c => c.ToClient());
+            return _globalRepository.Get(userId).Select(c => c.ToClient());
         }
         public void Insert(Category category)
         {
@@ -32,14 +32,14 @@ namespace ModelsAPI.Client.Services
             _globalRepository.Update(id, category.ToGlobal());
         }
 
-        public void Delete(int id)
+        public void Delete(int userId, int id)
         {
-            _globalRepository.Delete(id);
+            _globalRepository.Delete(userId, id);
         }
 
-        public Category GetCat(int id)
+        public Category GetCat(int userId, int id)
         {
-            return _globalRepository.GetCat(id)?.ToClient();
+            return _globalRepository.GetCat(userId, id)?.ToClient();
         }
     }
 }

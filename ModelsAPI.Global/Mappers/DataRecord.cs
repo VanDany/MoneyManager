@@ -27,6 +27,7 @@ namespace ModelsAPI.Global.Mappers
                 Id = (int)dataRecord["Id"],
                 Name = (string)dataRecord["Name"],
                 BudgetLimit = (dataRecord["BudgetLimit"] is DBNull)?null:(double?)dataRecord["BudgetLimit"]
+                //UserId = (int)dataRecord["UserId"]
             };
         }
     }

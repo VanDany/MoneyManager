@@ -13,5 +13,6 @@ namespace MoneyManager.API.Models.Forms
         public string Name { get; set; }
         
         public double? BudgetLimit { get; set; }
+        public int UserId { get; set; }
     }
 }

@@ -9,13 +9,13 @@ namespace ModelsAPI.Client.Repositories
 {
     public interface ICategoryRepository
     {
-        IEnumerable<Category> Get();
+        IEnumerable<Category> Get(int userId);
         void Insert(Category category);
 
         void Update(int id, Category category);
 
-        void Delete(int id);
+        void Delete(int userId, int id);
 
-        Category GetCat(int id);
+        Category GetCat(int userId, int id);
     }
 }

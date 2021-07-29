@@ -20,13 +20,13 @@ namespace Models.Global.Services
                 BaseAddress = new Uri("https://localhost:44384/")
             };
         }
-        public IEnumerable<Category> Get()
+        public IEnumerable<Category> Get(int userId)
         {
             using (HttpClient httpClient = CreateHttpClient())
             {
                 try
                 {
-                    HttpResponseMessage httpResponseMessage = httpClient.GetAsync("api/Category").Result;
+                    HttpResponseMessage httpResponseMessage = httpClient.GetAsync($"api/Category/{userId}").Result;
                     httpResponseMessage.EnsureSuccessStatusCode();
                     string json = httpResponseMessage.Content.ReadAsStringAsync().Result;
 
@@ -84,13 +84,13 @@ namespace Models.Global.Services
                 }
             }
         }
-        public void Delete(int id)
+        public void Delete(int userid, int id)
         {
             using (HttpClient httpClient = CreateHttpClient())
             {
                 try
                 {
-                    HttpResponseMessage httpResponseMessage = httpClient.DeleteAsync($"api/Category/{id}").Result;
+                    HttpResponseMessage httpResponseMessage = httpClient.DeleteAsync($"api/Category/{userid}/{id}").Result;
                     httpResponseMessage.EnsureSuccessStatusCode();
                 }
                 catch (Exception ex)
@@ -100,13 +100,13 @@ namespace Models.Global.Services
             }
         }
 
-        public Category GetCat(int id)
+        public Category GetCat(int userId, int id)
         {
             using (HttpClient httpClient = CreateHttpClient())
             {
                 try
                 {
-                    HttpResponseMessage httpResponseMessage = httpClient.GetAsync($"api/Category/{id}").Result;
+                    HttpResponseMessage httpResponseMessage = httpClient.GetAsync($"api/Category/{userId}/{id}").Result;
                     httpResponseMessage.EnsureSuccessStatusCode();
                     string json = httpResponseMessage.Content.ReadAsStringAsync().Result;
                     Category category = JsonSerializer.Deserialize<Category>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });

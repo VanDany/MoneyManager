@@ -16,13 +16,14 @@ namespace Models.Client.Mappers
             {
                 Id = entity.Id,
                 Name = entity.Name,
-                BudgetLimit = entity.BudgetLimit
+                BudgetLimit = entity.BudgetLimit,
+                UserId = entity.UserId
             };
         }
 
         internal static Category ToClient(this G.Category entity)
         {
-            return new Category(entity.Id, entity.Name, entity.BudgetLimit);
+            return new Category(entity.Id, entity.Name, entity.BudgetLimit, entity.UserId);
         }
         internal static User ToClient(this G.User entity)
         {

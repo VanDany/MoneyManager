@@ -17,5 +17,7 @@ namespace MoneyManager.Website.Models.Forms
         
         [DisplayName("Limite budget")]
         public double? BudgetLimit { get; set; }
+        [ScaffoldColumn(false)]
+        public int UserId { get; set; }
     }
 }

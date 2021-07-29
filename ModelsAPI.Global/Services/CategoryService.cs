@@ -19,9 +19,10 @@ namespace ModelsAPI.Global.Services
             _connection = connection;
         }
 
-        public IEnumerable<Category> Get()
+        public IEnumerable<Category> Get(int userId)
         {
-            Command command = new Command("Select Id, Name, BudgetLimit From Category;", false);
+            Command command = new Command("Select Id, Name, BudgetLimit, UserId From Category WHERE UserId = @UserId;", false);
+            command.AddParameter("UserId", userId);
             return _connection.ExecuteReader(command, dr => dr.ToCategory());
         }
 
@@ -30,30 +31,34 @@ namespace ModelsAPI.Global.Services
             Command command = new Command("MMSP_AddCategory", true);
             command.AddParameter("Name", category.Name);
             command.AddParameter("BudgetLimit", category.BudgetLimit);
+            command.AddParameter("UserId", category.UserId);
 
             _connection.ExecuteNonQuery(command);
         }
         public void Update(int id, Category category)
         {
-            Command command = new Command("Update Category SET Name = @Name, BudgetLimit = @BudgetLimit WHERE Id = @Id", false);
+            Command command = new Command("Update Category SET Name = @Name, BudgetLimit = @BudgetLimit WHERE Id = @Id AND UserId = @UserId", false);
             command.AddParameter("Id", id);
             command.AddParameter("Name", category.Name);
             command.AddParameter("BudgetLimit", category.BudgetLimit);
+            command.AddParameter("UserId", category.UserId);
 
             _connection.ExecuteNonQuery(command);
         }
 
-        public void Delete(int id)
+        public void Delete(int userId, int id)
         {
             Command command = new Command("MMSP_DeleteCategory", true);
             command.AddParameter("Id", id);
+            command.AddParameter("UserId", userId);
             _connection.ExecuteNonQuery(command);
         }
 
-        public Category GetCat(int id)
+        public Category GetCat(int userId, int id)
         {
-            Command command = new Command("SELECT Id, Name, BudgetLimit From Category WHERE Id = @Id", false);
+            Command command = new Command("SELECT Id, Name, BudgetLimit From Category WHERE Id = @Id AND UserId = @UserId", false);
             command.AddParameter("Id", id);
+            command.AddParameter("UserId", userId);
             return _connection.ExecuteReader(command, dr => dr.ToCategory()).SingleOrDefault();
 
         }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Models.Client.Data;
 using Models.Client.Repositories;
+using MoneyManager.Website.Infrastructure.Session;
 using MoneyManager.Website.Models.Forms;
 using System;
 using System.Collections.Generic;
@@ -13,25 +14,26 @@ namespace MoneyManager.Website.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;
-
-        public CategoryController(ICategoryRepository categoryRepository)
+        private readonly ISessionManager _sessionManager;
+        public CategoryController(ICategoryRepository categoryRepository, ISessionManager sessionManager)
         {
             _categoryRepository = categoryRepository;
+            _sessionManager = sessionManager;
         }
         // GET: CategoryController
         public IActionResult Index()
         {
-            return View(_categoryRepository.Get());
+            return View(_categoryRepository.Get(_sessionManager.User.Id));
 
         }
 
         // GET: CategoryController/Details/5
         public IActionResult Details(int id)
         {
-            Category category = _categoryRepository.GetCat(id);
+            Category category = _categoryRepository.GetCat(_sessionManager.User.Id, id);
             if (category is null)
                 return RedirectToAction("Index");
-            return View(new DisplayDetailsCategory() { Id = category.Id, Name = category.Name, BudgetLimit = category.BudgetLimit });
+            return View(new DisplayDetailsCategory() { Id = category.Id, Name = category.Name, BudgetLimit = category.BudgetLimit, UserId = _sessionManager.User.Id });
         }
 
         // GET: CategoryController/Create
@@ -50,7 +52,7 @@ namespace MoneyManager.Website.Controllers
             {
                 return View(form);
             }
-            Category newCategory = new Category(form.Name, form.BudgetLimit);
+            Category newCategory = new Category(form.Name, form.BudgetLimit, _sessionManager.User.Id);
             _categoryRepository.Insert(newCategory);
             return RedirectToAction("Index");
         }
@@ -58,7 +60,7 @@ namespace MoneyManager.Website.Controllers
         // GET: CategoryController/Edit/5
         public IActionResult Edit(int id)
         {
-            Category category = _categoryRepository.GetCat(id);
+            Category category = _categoryRepository.GetCat(_sessionManager.User.Id, id);
             if (category is null)
                 return RedirectToAction("Index");
 
@@ -80,14 +82,14 @@ namespace MoneyManager.Website.Controllers
             {
                 return View(form);
             }
-            _categoryRepository.Update(id, new Category(form.Name, form.BudgetLimit));
+            _categoryRepository.Update(id, new Category(form.Name, form.BudgetLimit, _sessionManager.User.Id));
             return RedirectToAction("Index");
         }
 
         // GET: CategoryController/Delete/5
         public IActionResult Delete(int id)
         {
-            Category category = _categoryRepository.GetCat(id);
+            Category category = _categoryRepository.GetCat(_sessionManager.User.Id, id);
             if (category is null)
                 RedirectToAction("Index");
             return View(new DisplayDetailsCategory() { Id = category.Id, Name = category.Name, BudgetLimit = category.BudgetLimit });
@@ -98,8 +100,8 @@ namespace MoneyManager.Website.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id, IFormCollection collection)
         {
-            Category category = _categoryRepository.GetCat(id);
-            _categoryRepository.Delete(id);
+            Category category = _categoryRepository.GetCat(_sessionManager.User.Id, id);
+            _categoryRepository.Delete(_sessionManager.User.Id, id);
             return RedirectToAction("Index");
         }
     }
