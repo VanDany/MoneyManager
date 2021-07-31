@@ -18,18 +18,16 @@ namespace ModelsAPI.Global.Services
         {
             _connection = connection;
         }
-        public IEnumerable<Transaction> Get(int userAccountId)
+        public IEnumerable<Transaction> Get()
         {
-            Command command = new Command("Select Id, UserAccountId, DateTransact, Description, ExpenseOrIncome, Amount, CategoryId From Transaction WHERE UserAccountId = @UserAccountId;", false);
-            command.AddParameter("UserAccountId", userAccountId);
+            Command command = new Command("Select Id, UserAccountId, DateTransact, Description, ExpenseOrIncome, Amount, CategoryId From Transaction", false);
             return _connection.ExecuteReader(command, dr => dr.ToTransaction());
         }
 
-        public Transaction GetTransact(int userAccountId, int id)
+        public Transaction GetTransact(int id)
         {
-            Command command = new Command("Select Id, UserAccountId, DateTransact, Description, ExpenseOrIncome, Amount, CategoryId From Transaction WHERE UserAccountId = @UserAccountId AND Id = @Id;", false);
+            Command command = new Command("Select Id, UserAccountId, DateTransact, Description, ExpenseOrIncome, Amount, CategoryId From Transaction WHERE Id = @Id;", false);
             command.AddParameter("Id", id);
-            command.AddParameter("UserAccountId", userAccountId);
             return _connection.ExecuteReader(command, dr => dr.ToTransaction()).SingleOrDefault();
         }
 

@@ -24,11 +24,11 @@ namespace Models.Global.Services
         {
             _httpClient = httpClient;
         }
-        public IEnumerable<Category> Get(int userId)
+        public IEnumerable<Category> Get()
         {
             try
             {
-                HttpResponseMessage httpResponseMessage = _httpClient.GetAsync($"api/Category/{userId}").Result;
+                HttpResponseMessage httpResponseMessage = _httpClient.GetAsync($"api/Category").Result;
                 httpResponseMessage.EnsureSuccessStatusCode();
                 string json = httpResponseMessage.Content.ReadAsStringAsync().Result;
                 IEnumerable<Category> categories = JsonSerializer.Deserialize<Category[]>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
@@ -91,11 +91,11 @@ namespace Models.Global.Services
             }
         }
 
-        public Category GetCat(int id, int userId)
+        public Category GetCat(int id)
         {
             try
             {
-                HttpResponseMessage httpResponseMessage = _httpClient.GetAsync($"api/Category/{userId}/{id}").Result;
+                HttpResponseMessage httpResponseMessage = _httpClient.GetAsync($"api/Category/{id}").Result;
                 httpResponseMessage.EnsureSuccessStatusCode();
                 string json = httpResponseMessage.Content.ReadAsStringAsync().Result;
                 Category category = JsonSerializer.Deserialize<Category>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });

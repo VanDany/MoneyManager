@@ -18,14 +18,14 @@ namespace ModelsAPI.Client.Services
         {
             _globalRepository = globalRepository;
         }
-        public IEnumerable<Transaction> Get(int userAccountId)
+        public IEnumerable<Transaction> Get()
         {
-            return _globalRepository.Get(userAccountId).Select(c => c.ToClient());
+            return _globalRepository.Get().Select(c => c.ToClient());
         }
 
-        public Transaction GetTransact(int userAccountId, int id)
+        public Transaction GetTransact(int id)
         {
-            return _globalRepository.GetTransact(userAccountId, id)?.ToClient();
+            return _globalRepository.GetTransact(id)?.ToClient();
         }
         public void Insert(Transaction transact)
         {

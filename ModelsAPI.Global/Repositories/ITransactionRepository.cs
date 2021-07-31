@@ -9,9 +9,9 @@ namespace ModelsAPI.Global.Repositories
 {
     public interface ITransactionRepository
     {
-        IEnumerable<Transaction> Get(int userAccountId);
+        IEnumerable<Transaction> Get();
 
-        Transaction GetTransact(int userAccountId, int id);
+        Transaction GetTransact(int id);
 
         void Insert(Transaction transact);
 

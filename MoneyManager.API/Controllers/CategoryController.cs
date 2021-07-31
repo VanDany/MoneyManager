@@ -29,17 +29,17 @@ namespace MoneyManager.API.Controllers
 
 
         // GET: api/<CategoryController>/1
-        [HttpGet("{userId}")]
-        public IEnumerable<Category> Get(int userId)
+        [HttpGet()]
+        public IEnumerable<Category> Get()
         {
-            return _category.Get(userId);
-        }
-
+            return _category.Get(UserId);
+        } 
+         
         // GET api/<CategoryController>/1/1
-        [HttpGet("{userId}/{id}")]
-        public Category GetCat(int id, int userId)
+        [HttpGet("{id}")]
+        public Category GetCat(int id)
         {
-            return _category.GetCat(id, userId);
+            return _category.GetCat(id, UserId);
         }
 
         // POST api/<CategoryController>
@@ -51,7 +51,7 @@ namespace MoneyManager.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            Category category = new Category(categoryform.Name, categoryform.BudgetLimit, categoryform.UserId);
+            Category category = new Category(categoryform.Name, categoryform.BudgetLimit, UserId);
 
             _category.Insert(category);
 
@@ -67,7 +67,7 @@ namespace MoneyManager.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            Category category = new Category(categoryForm.Name, categoryForm.BudgetLimit, categoryForm.UserId);
+            Category category = new Category(categoryForm.Name, categoryForm.BudgetLimit, UserId);
 
             _category.Update(id, category);
             return Ok();
