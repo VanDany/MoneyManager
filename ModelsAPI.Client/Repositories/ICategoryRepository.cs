@@ -14,8 +14,8 @@ namespace ModelsAPI.Client.Repositories
 
         void Update(int id, Category category);
 
-        void Delete(int userId, int id);
+        void Delete(int id);
 
-        Category GetCat(int userId, int id);
+        Category GetCat(int id, int userId);
     }
 }

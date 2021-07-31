@@ -17,6 +17,6 @@ namespace ModelsAPI.Client.Repositories
 
         void Update(int id, Transaction transact);
 
-        void Delete(int userId, int id);
+        void Delete(int id);
     }
 }

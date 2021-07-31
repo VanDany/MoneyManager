@@ -18,6 +18,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tools.Connections.Database;
 using MoneyManager.API.Infrastructure.Security;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace MoneyManager.API
 {
@@ -38,6 +39,38 @@ namespace MoneyManager.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MoneyManager.API", Version = "v1" });
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Name = "JWT Authentication",
+                    Description = "Enter JWT Bearer token **_only_**",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Reference = new OpenApiReference
+                    {
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+                c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {securityScheme, new string[] { }}
+    });
+
+                // add Basic Authentication
+                var basicSecurityScheme = new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "basic",
+                    Reference = new OpenApiReference { Id = "BasicAuth", Type = ReferenceType.SecurityScheme }
+                };
+                c.AddSecurityDefinition(basicSecurityScheme.Reference.Id, basicSecurityScheme);
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {basicSecurityScheme, new string[] { }}
+    });
             });
             services.AddSingleton(sp => new Connection(SqlClientFactory.Instance, Configuration.GetConnectionString("MoneyManagerDB")));
             services.AddSingleton<GR.IAuthRepository, GS.AuthService>();

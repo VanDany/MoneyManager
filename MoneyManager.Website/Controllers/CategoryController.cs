@@ -30,7 +30,7 @@ namespace MoneyManager.Website.Controllers
         // GET: CategoryController/Details/5
         public IActionResult Details(int id)
         {
-            Category category = _categoryRepository.GetCat(_sessionManager.User.Id, id);
+            Category category = _categoryRepository.GetCat(id, _sessionManager.User.Id);
             if (category is null)
                 return RedirectToAction("Index");
             return View(new DisplayDetailsCategory() { Id = category.Id, Name = category.Name, BudgetLimit = category.BudgetLimit, UserId = _sessionManager.User.Id });
@@ -60,7 +60,7 @@ namespace MoneyManager.Website.Controllers
         // GET: CategoryController/Edit/5
         public IActionResult Edit(int id)
         {
-            Category category = _categoryRepository.GetCat(_sessionManager.User.Id, id);
+            Category category = _categoryRepository.GetCat(id, _sessionManager.User.Id);
             if (category is null)
                 return RedirectToAction("Index");
 
@@ -89,7 +89,7 @@ namespace MoneyManager.Website.Controllers
         // GET: CategoryController/Delete/5
         public IActionResult Delete(int id)
         {
-            Category category = _categoryRepository.GetCat(_sessionManager.User.Id, id);
+            Category category = _categoryRepository.GetCat(id, _sessionManager.User.Id);
             if (category is null)
                 RedirectToAction("Index");
             return View(new DisplayDetailsCategory() { Id = category.Id, Name = category.Name, BudgetLimit = category.BudgetLimit });
@@ -100,8 +100,8 @@ namespace MoneyManager.Website.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id, IFormCollection collection)
         {
-            Category category = _categoryRepository.GetCat(_sessionManager.User.Id, id);
-            _categoryRepository.Delete(_sessionManager.User.Id, id);
+            Category category = _categoryRepository.GetCat(id, _sessionManager.User.Id);
+            _categoryRepository.Delete(id);
             return RedirectToAction("Index");
         }
     }

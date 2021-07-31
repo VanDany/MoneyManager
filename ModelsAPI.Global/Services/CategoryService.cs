@@ -46,15 +46,14 @@ namespace ModelsAPI.Global.Services
             _connection.ExecuteNonQuery(command);
         }
 
-        public void Delete(int userId, int id)
+        public void Delete(int id)
         {
             Command command = new Command("MMSP_DeleteCategory", true);
             command.AddParameter("Id", id);
-            command.AddParameter("UserId", userId);
             _connection.ExecuteNonQuery(command);
         }
 
-        public Category GetCat(int userId, int id)
+        public Category GetCat(int id, int userId)
         {
             Command command = new Command("SELECT Id, Name, BudgetLimit From Category WHERE Id = @Id AND UserId = @UserId", false);
             command.AddParameter("Id", id);

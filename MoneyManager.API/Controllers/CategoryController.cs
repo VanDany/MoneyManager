@@ -18,7 +18,10 @@ namespace MoneyManager.API.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryRepository _category;
-
+        private int UserId
+        {
+            get { return (int)ControllerContext.RouteData.Values["userId"]; }
+        }
         public CategoryController(ICategoryRepository category)
         {
             _category = category;
@@ -34,9 +37,9 @@ namespace MoneyManager.API.Controllers
 
         // GET api/<CategoryController>/1/1
         [HttpGet("{userId}/{id}")]
-        public Category Get(int userId, int id)
+        public Category GetCat(int id, int userId)
         {
-            return _category.GetCat(userId, id);
+            return _category.GetCat(id, userId);
         }
 
         // POST api/<CategoryController>
@@ -67,15 +70,14 @@ namespace MoneyManager.API.Controllers
             Category category = new Category(categoryForm.Name, categoryForm.BudgetLimit, categoryForm.UserId);
 
             _category.Update(id, category);
-
             return Ok();
         }
 
         //DELETE api/<CategoryController>/5
-        [HttpDelete("{userId}/{id}")]
-        public IActionResult Delete(int userId, int id)
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
-            _category.Delete(userId, id);
+            _category.Delete(id);
             return NoContent();
         }
     }

@@ -32,14 +32,14 @@ namespace ModelsAPI.Client.Services
             _globalRepository.Update(id, category.ToGlobal());
         }
 
-        public void Delete(int userId, int id)
+        public void Delete(int id)
         {
-            _globalRepository.Delete(userId, id);
+            _globalRepository.Delete(id);
         }
 
-        public Category GetCat(int userId, int id)
+        public Category GetCat(int id, int userId)
         {
-            return _globalRepository.GetCat(userId, id)?.ToClient();
+            return _globalRepository.GetCat(id, userId)?.ToClient();
         }
     }
 }

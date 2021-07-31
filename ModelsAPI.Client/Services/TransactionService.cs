@@ -36,9 +36,9 @@ namespace ModelsAPI.Client.Services
         {
             _globalRepository.Update(id, transact.ToGlobal());
         }
-        public void Delete(int userAccountId, int id)
+        public void Delete(int id)
         {
-            _globalRepository.Delete(userAccountId, id);
+            _globalRepository.Delete(id);
         }
     }
 }

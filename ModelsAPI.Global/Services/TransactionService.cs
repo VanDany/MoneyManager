@@ -55,11 +55,10 @@ namespace ModelsAPI.Global.Services
             command.AddParameter("CategoryId", transact.CategoryId);
             _connection.ExecuteNonQuery(command);
         }
-        public void Delete(int userAccountId, int id)
+        public void Delete(int id)
         {
-            Command command = new Command("DELETE FROM [Transaction] WHERE Id = @Id and UserAccountId = @UserAccountId;", false);
+            Command command = new Command("DELETE FROM [Transaction] WHERE Id = @Id;", false);
             command.AddParameter("Id", id);
-            command.AddParameter("UserAccountId", userAccountId);
             _connection.ExecuteNonQuery(command);
         }
     }

@@ -1,6 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[MMSP_DeleteCategory]
-	@Id int,
-	@UserId int
+	@Id int
 AS
-	DELETE FROM [Category] WHERE Id = @Id and UserId = @UserId;
+	DELETE FROM [Category] WHERE Id = @Id ;
 RETURN 0

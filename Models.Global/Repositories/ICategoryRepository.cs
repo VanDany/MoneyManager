@@ -10,9 +10,9 @@ namespace Models.Global.Repositories
     public interface ICategoryRepository
     {
         IEnumerable<Category> Get(int userId);
-        Category GetCat(int userId, int id);
+        Category GetCat(int id, int userId);
         void Insert(Category category);
         void Update(int id, Category category);
-        void Delete(int userId, int id);
+        void Delete(int id);
     }
 }

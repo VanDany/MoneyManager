@@ -78,11 +78,11 @@ namespace Models.Global.Services
                 Console.WriteLine(ex.Message);
             }
         }
-        public void Delete(int userid, int id)
+        public void Delete(int id)
         {
             try
             {
-                HttpResponseMessage httpResponseMessage = _httpClient.DeleteAsync($"api/Category/{userid}/{id}").Result;
+                HttpResponseMessage httpResponseMessage = _httpClient.DeleteAsync($"api/Category/{id}").Result;
                 httpResponseMessage.EnsureSuccessStatusCode();
             }
             catch (Exception ex)
@@ -91,7 +91,7 @@ namespace Models.Global.Services
             }
         }
 
-        public Category GetCat(int userId, int id)
+        public Category GetCat(int id, int userId)
         {
             try
             {

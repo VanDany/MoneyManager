@@ -17,6 +17,6 @@ namespace ModelsAPI.Global.Repositories
 
         void Update(int id, Transaction transact);
 
-        void Delete(int userAccountId, int id);
+        void Delete(int id);
     }
 }
