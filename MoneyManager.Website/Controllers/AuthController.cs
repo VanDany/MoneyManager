@@ -34,17 +34,17 @@ namespace MoneyManager.Website.Controllers
 
         [HttpPost]
         [AnonymousRequired]
-        public IActionResult Login(LoginForm form)
+        public IActionResult Login(LoginRegisterForm loginForm)
         {
             if (!ModelState.IsValid)
-                return View(form);
+                return View(loginForm.LoginViewModel);
 
-            User user = _authRepository.Login(form.Email, form.Password);
+            User user = _authRepository.Login(loginForm.LoginViewModel.Email, loginForm.LoginViewModel.Password);
 
             if (user is null)
             {
                 ModelState.AddModelError("", "e-mail ou mot de passe invalide");
-                return View(form);
+                return View(loginForm.LoginViewModel);
             }
             _sessionManager.User = new UserSession() { Id = user.Id, Username = user.Username, EmailAddress = user.EmailAddress, Token = user.Token };
 
@@ -59,12 +59,12 @@ namespace MoneyManager.Website.Controllers
 
         [HttpPost]
         [AnonymousRequired]
-        public IActionResult Register(RegisterForm form)
+        public IActionResult Register(LoginRegisterForm registerForm)
         {
             if (!ModelState.IsValid)
-                return View(form);
+                return View(registerForm.RegisterViewModel);
             //Why ?
-            _authRepository.Register(new User(form.Username, form.Email, form.Password, 0, 1));
+            _authRepository.Register(new User(registerForm.RegisterViewModel.Username, registerForm.RegisterViewModel.Email, registerForm.RegisterViewModel.Password, 0, 1));
             return RedirectToAction("Login");
         }
 
