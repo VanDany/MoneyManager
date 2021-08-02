@@ -10,22 +10,20 @@ namespace ModelsAPI.Client.Data
     {
         public int Id { get; private set; }
         public int UserAccountId { get; set; }
-        public DateTime DateTransact { get; set; }
         public string Description { get; set; }
         public bool ExpenseOrIncome { get; set; }
         public double Amount { get; set; }
         public int CategoryId { get; set; }
-        public Transaction(int userAccountId, DateTime dateTransact, string description, bool expenseOrIncome, double amount, int categoryId)
+        public Transaction(int userAccountId, string description, bool expenseOrIncome, double amount, int categoryId)
         {
             UserAccountId = userAccountId;
-            DateTransact = dateTransact;
             Description = description;
             ExpenseOrIncome = expenseOrIncome;
             Amount = amount;
             CategoryId = categoryId;
         }
-        internal Transaction(int id, int userAccountId, DateTime dateTransact, string description, bool expenseOrIncome, double amount, int categoryId)
-            :this(userAccountId, dateTransact, description, expenseOrIncome, amount, categoryId)
+        internal Transaction(int id, int userAccountId, string description, bool expenseOrIncome, double amount, int categoryId)
+            :this(userAccountId, description, expenseOrIncome, amount, categoryId)
         {
             Id = id;
         }

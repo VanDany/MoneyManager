@@ -18,20 +18,14 @@ namespace ModelsAPI.Client.Services
         {
             _globalRepository = globalRepository;
         }
-        public IEnumerable<Transaction> Get()
+        public IEnumerable<Transaction> Get(int userId)
         {
-            return _globalRepository.Get().Select(c => c.ToClient());
-        }
-
-        public Transaction GetTransact(int id)
-        {
-            return _globalRepository.GetTransact(id)?.ToClient();
+            return _globalRepository.Get(userId).Select(c => c.ToClient());
         }
         public void Insert(Transaction transact)
         {
             _globalRepository.Insert(transact.ToGlobal());
         }
-
         public void Update(int id, Transaction transact)
         {
             _globalRepository.Update(id, transact.ToGlobal());
@@ -39,6 +33,10 @@ namespace ModelsAPI.Client.Services
         public void Delete(int id)
         {
             _globalRepository.Delete(id);
+        }
+        public Transaction GetTransact(int id, int userId)
+        {
+            return _globalRepository.GetTransact(id, userId)?.ToClient();
         }
     }
 }

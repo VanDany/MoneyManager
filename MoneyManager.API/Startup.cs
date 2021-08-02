@@ -73,9 +73,17 @@ namespace MoneyManager.API
     });
             });
             services.AddSingleton(sp => new Connection(SqlClientFactory.Instance, Configuration.GetConnectionString("MoneyManagerDB")));
-            services.AddSingleton<GR.IAuthRepository, GS.AuthService>();
+            
             services.AddSingleton<GR.ICategoryRepository, GS.CategoryService>();
             services.AddSingleton<ICategoryRepository, CategoryService>();
+
+            services.AddSingleton<GR.ITransactionRepository, GS.TransactionService>();
+            services.AddSingleton<ITransactionRepository, TransactionService>();
+
+            services.AddSingleton<GR.IAccountRepository, GS.AccountService>();
+            services.AddSingleton<IAccountRepository, AccountService>();
+
+            services.AddSingleton<GR.IAuthRepository, GS.AuthService>();
             services.AddSingleton<IAuthRepository, AuthService>();
             services.AddSingleton<ITokenRepository, TokenService>();
 

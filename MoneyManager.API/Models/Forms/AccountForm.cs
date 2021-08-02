@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace MoneyManager.API.Models.Forms
 {
-    public class CategoryForm
+    public class AccountForm
     {
-        [Required]
-        [StringLength(50)]
-        public string Name { get; set; }
-        public double? BudgetLimit { get; set; }
         public int UserId { get; set; }
+        [Required]
+        public string Description { get; set; }
     }
 }

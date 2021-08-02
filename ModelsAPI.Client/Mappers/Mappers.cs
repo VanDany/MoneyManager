@@ -46,7 +46,7 @@ namespace ModelsAPI.Client.Mappers
             {
                 Id = entity.Id,
                 UserAccountId = entity.UserAccountId,
-                DateTransact = entity.DateTransact,
+                //DateTransact = null,
                 Description = entity.Description,
                 ExpenseOrIncome = entity.ExpenseOrIncome,
                 Amount = entity.Amount,
@@ -55,7 +55,21 @@ namespace ModelsAPI.Client.Mappers
         }
         internal static Transaction ToClient(this G.Transaction entity)
         {
-            return new Transaction(entity.Id, entity.UserAccountId, entity.DateTransact, entity.Description, entity.ExpenseOrIncome, entity.Amount, entity.CategoryId);
+            return new Transaction(entity.Id, entity.UserAccountId, entity.Description, entity.ExpenseOrIncome, entity.Amount, entity.CategoryId);
         }
+        internal static G.Account ToGlobal(this Account entity)
+        {
+            return new G.Account()
+            {
+                Id = entity.Id,
+                UserId = entity.UserId,
+                Description = entity.Description,
+            };
+        }
+        internal static Account ToClient(this G.Account entity)
+        {
+            return new Account(entity.Id, entity.UserId, entity.Description);
+        }
+
     }
 }

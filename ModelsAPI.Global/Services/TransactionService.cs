@@ -18,16 +18,18 @@ namespace ModelsAPI.Global.Services
         {
             _connection = connection;
         }
-        public IEnumerable<Transaction> Get()
+        public IEnumerable<Transaction> Get(int userId)
         {
-            Command command = new Command("Select Id, UserAccountId, DateTransact, Description, ExpenseOrIncome, Amount, CategoryId From Transaction", false);
+            Command command = new Command("Select Id, UserAccountId, DateTransact, Description, ExpenseOrIncome, Amount, CategoryId From [Transaction] WHERE UserAccountId = @UserId", false);
+            command.AddParameter("UserId", userId);
             return _connection.ExecuteReader(command, dr => dr.ToTransaction());
         }
 
-        public Transaction GetTransact(int id)
+        public Transaction GetTransact(int id, int userId)
         {
-            Command command = new Command("Select Id, UserAccountId, DateTransact, Description, ExpenseOrIncome, Amount, CategoryId From Transaction WHERE Id = @Id;", false);
+            Command command = new Command("Select Id, UserAccountId, DateTransact, Description, ExpenseOrIncome, Amount, CategoryId From [Transaction] WHERE Id = @Id AND UserAccountId = @UserId;", false);
             command.AddParameter("Id", id);
+            command.AddParameter("UserId", userId);
             return _connection.ExecuteReader(command, dr => dr.ToTransaction()).SingleOrDefault();
         }
 
@@ -44,7 +46,7 @@ namespace ModelsAPI.Global.Services
 
         public void Update(int id, Transaction transact)
         {
-            Command command = new Command("Update Transaction SET UserAccount = @UserAccount, DateTransact = GETDATE(), Description = @Description, ExpenseOrIncome = @ExpenseOrIncome, Amount = @Amount, CategoryId = @CategoryId WHERE Id = @Id AND UserAccountId = @UserAccountId", false);
+            Command command = new Command("Update [Transaction] SET UserAccountId = @UserAccountId, DateTransact = GETDATE(), Description = @Description, ExpenseOrIncome = @ExpenseOrIncome, Amount = @Amount, CategoryId = @CategoryId WHERE Id = @Id AND UserAccountId = @UserAccountId", false);
             command.AddParameter("Id", id);
             command.AddParameter("UserAccountId", transact.UserAccountId);
             command.AddParameter("Description", transact.Description);

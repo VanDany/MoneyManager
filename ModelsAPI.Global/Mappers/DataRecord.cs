@@ -42,5 +42,14 @@ namespace ModelsAPI.Global.Mappers
                 CategoryId = (int)dataRecord["CategoryId"]
             };
         }
+        internal static Account ToAccount(this IDataRecord dataRecord)
+        {
+            return new Account()
+            {
+                Id = (int)dataRecord["Id"],
+                UserId = (int)dataRecord["UserId"],
+                Description = (dataRecord["Description"] is DBNull) ? null : (string)dataRecord["Description"]
+            };
+        }
     }
 }
