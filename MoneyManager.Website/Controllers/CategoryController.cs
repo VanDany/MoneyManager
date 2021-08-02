@@ -76,7 +76,7 @@ namespace MoneyManager.Website.Controllers
         // POST: CategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, EditCategoryForm form)
+        public IActionResult Edit([FromRoute]int id, EditCategoryForm form)
         {
             if (!ModelState.IsValid)
             {

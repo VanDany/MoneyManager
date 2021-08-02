@@ -44,7 +44,7 @@ namespace ModelsAPI.Global.Services
 
         public void Update(int id, Account account)
         {
-            Command command = new Command("Update [UserAccount] SET UserId = @UsertId, Description = @Description WHERE Id = @Id AND UserId = @UserId", false);
+            Command command = new Command("Update [UserAccount] SET UserId = @UserId, Description = @Description WHERE Id = @Id AND UserId = @UserId", false);
             command.AddParameter("Id", id);
             command.AddParameter("UserId", account.UserId);
             command.AddParameter("Description", account.Description);

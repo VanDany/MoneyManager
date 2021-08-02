@@ -25,6 +25,21 @@ namespace Models.Client.Mappers
         {
             return new Category(entity.Id, entity.Name, entity.BudgetLimit, entity.UserId);
         }
+        internal static G.Account ToGlobal(this Account entity)
+        {
+            return new G.Account()
+            {
+                Id = entity.Id,
+                UserId = entity.UserId,
+                Description = entity.Description
+            };
+        }
+
+        internal static Account ToClient(this G.Account entity)
+        {
+            return new Account(entity.Id, entity.UserId, entity.Description);
+        }
+
         internal static User ToClient(this G.User entity)
         {
             return new User(entity.Id, entity.Username, entity.EmailAddress, entity.Xp, entity.Level, entity.Token);

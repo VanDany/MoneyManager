@@ -19,5 +19,14 @@ namespace Models.Global.Mappers
                 UserId = (int)dataRecord["UserId"]
             };
         }
+        internal static Account ToAccount(this IDataRecord dataRecord)
+        {
+            return new Account()
+            {
+                Id = (int)dataRecord["Id"],
+                UserId = (int)dataRecord["UserId"],
+                Description = (string)dataRecord["Description"],
+            };
+        }
     }
 }
