@@ -21,14 +21,14 @@ namespace ModelsAPI.Global.Services
         }
         public IEnumerable<Account> Get(int userId)
         {
-            Command command = new Command("Select Id, UserId, Description From [Account] WHERE UserId = @UserId", false);
+            Command command = new Command("Select Id, UserId, Description From [UserAccount] WHERE UserId = @UserId", false);
             command.AddParameter("UserId", userId);
             return _connection.ExecuteReader(command, dr => dr.ToAccount());
         }
 
         public Account GetAccount(int id, int userId)
         {
-            Command command = new Command("Select Id, UserId, Description From [Transaction] WHERE Id = @Id AND UserId = @UserId;", false);
+            Command command = new Command("Select Id, UserId, Description From [UserAccount] WHERE Id = @Id AND UserId = @UserId;", false);
             command.AddParameter("Id", id);
             command.AddParameter("UserId", userId);
             return _connection.ExecuteReader(command, dr => dr.ToAccount()).SingleOrDefault();
@@ -44,7 +44,7 @@ namespace ModelsAPI.Global.Services
 
         public void Update(int id, Account account)
         {
-            Command command = new Command("Update [Account] SET UserId = @UsertId, Description = @Description WHERE Id = @Id AND UserId = @UserId", false);
+            Command command = new Command("Update [UserAccount] SET UserId = @UsertId, Description = @Description WHERE Id = @Id AND UserId = @UserId", false);
             command.AddParameter("Id", id);
             command.AddParameter("UserId", account.UserId);
             command.AddParameter("Description", account.Description);
@@ -52,7 +52,7 @@ namespace ModelsAPI.Global.Services
         }
         public void Delete(int id)
         {
-            Command command = new Command("DELETE FROM [Transaction] WHERE Id = @Id;", false);
+            Command command = new Command("DELETE FROM [UserAccount] WHERE Id = @Id;", false);
             command.AddParameter("Id", id);
             _connection.ExecuteNonQuery(command);
         }

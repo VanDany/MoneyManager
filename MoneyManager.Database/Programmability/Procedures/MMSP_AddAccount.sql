@@ -3,6 +3,6 @@
 	@Description NVARCHAR(50)
 AS
 BEGIN
-	INSERT INTO [Account] ([UserId], [Description]) VALUES (@UserId, @Description);
+	INSERT INTO [UserAccount] ([UserId], [Description]) VALUES (@UserId, @Description);
 	RETURN 0
 END
