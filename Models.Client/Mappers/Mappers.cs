@@ -39,6 +39,25 @@ namespace Models.Client.Mappers
         {
             return new Account(entity.Id, entity.UserId, entity.Description);
         }
+        internal static G.Transaction ToGlobal(this Transaction entity)
+        {
+            return new G.Transaction()
+            {
+                Id = entity.Id,
+                UserAccountId = entity.UserAccountId,
+                DateTransact = entity.DateTransact,
+                Description = entity.Description,
+                ExpenseOrIncome = entity.ExpenseOrIncome,
+                Amount = entity.Amount,
+                CategoryId = entity.CategoryId
+            };
+        }
+
+        internal static Transaction ToClient(this G.Transaction entity)
+        {
+            return new Transaction(entity.Id, entity.UserAccountId, entity.DateTransact, entity.Description, entity.ExpenseOrIncome, entity.Amount, entity.CategoryId);
+        }
+
 
         internal static User ToClient(this G.User entity)
         {

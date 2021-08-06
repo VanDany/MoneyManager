@@ -55,8 +55,16 @@ namespace MoneyManager.Website
             });
 
             services.AddScoped<GR.IAuthRepository, GS.AuthService>();
+            
             services.AddScoped<GR.ICategoryRepository, GS.CategoryService>();
             services.AddScoped<ICategoryRepository, CategoryService>();
+
+            services.AddScoped<GR.ITransactionRepository, GS.TransactionService>();
+            services.AddScoped<ITransactionRepository, TransactionService>();
+
+            services.AddScoped<GR.IAccountRepository, GS.AccountService>();
+            services.AddScoped<IAccountRepository, AccountService>();
+
             services.AddScoped<IAuthRepository, AuthService>();
             services.AddScoped<ISessionManager, SessionManager>();
         }

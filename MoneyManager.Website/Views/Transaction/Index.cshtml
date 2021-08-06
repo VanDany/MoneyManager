@@ -1,0 +1,83 @@
+﻿@model Models.Client.Data.TransactionAccount
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Transactions</h1>
+@{double somme = 0;}
+@foreach (var item in Model.transaction)
+{
+    @if (item.ExpenseOrIncome == true)
+    {
+        somme -= item.Amount;
+    }
+    else
+    {
+        somme += item.Amount;
+    }
+}
+<div class="accounts">
+    <div class="select">
+        <select onchange="addAccountId()" name="format" id="format">
+            <option selected>Tous les comptes</option>
+            @foreach(var item in Model.account)
+            {
+        <option value="@item.Id">@item.Description</option>
+            }
+        </select>
+    </div>
+    <div class="balance">Montant total : @somme</div>
+    <div class="balance">Balance : @somme</div>
+
+</div>
+
+<div class="basic-info">
+    <a id="newTransaction" asp-controller="Transaction" asp-action="Create" class="btn btn-success"> Nouvelle transaction</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th scope="col">Compte</th>
+            <th scope="col">Date</th>
+            <th scope="col">Description</th>
+            <th scope="col">Catégorie</th>
+            <th scope="col">Montant</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.transaction)
+        {
+            <tr>
+                <td data-label="Compte">@Html.DisplayFor(modelItem => item.UserAccountId)</td>
+                <td data-label="Date">@Html.DisplayFor(modelItem => item.DateTransact)</td>
+                <td data-label="Description">@Html.DisplayFor(modelItem => item.Description)</td>
+                <td data-label="Catégorie">@Html.DisplayFor(modelItem => item.CategoryId)</td>
+
+                <td class="amount" data-label="Montant">
+                    @if (item.ExpenseOrIncome == true)
+                    {
+                        <span>-@item.Amount</span>
+                    }
+                    else
+                    {
+                        <span>@item.Amount</span>
+                    }
+                </td>
+                <td>
+                    <a asp-controller="Transaction" asp-action="Edit" asp-route-id=@item.Id><img id="modify" src="img/modify.png" alt="bin-del"></a>
+                    <a asp-controller="Transaction" asp-action="Delete" asp-route-id=@item.Id><img id="bin-delete" src="img/bin-delete.png" alt="bin-del"></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src='~/js/transactions.js'></script>
+<link href="~/css/transactions.css" rel="stylesheet" />

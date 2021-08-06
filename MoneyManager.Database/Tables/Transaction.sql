@@ -7,6 +7,6 @@
     [ExpenseOrIncome] BIT NOT NULL, 
     [Amount] FLOAT NOT NULL, 
     [CategoryId] INT NOT NULL, 
-    CONSTRAINT [FK_Transaction_User] FOREIGN KEY ([UserAccountId]) REFERENCES [User]([Id]), 
+    CONSTRAINT [FK_Transaction_User] FOREIGN KEY ([UserAccountId]) REFERENCES [UserAccount]([Id]), 
     CONSTRAINT [FK_Transaction_Category] FOREIGN KEY ([CategoryId]) REFERENCES [Category]([Id])
 )

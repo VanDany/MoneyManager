@@ -4,6 +4,7 @@ using Models.Client.Data;
 using Models.Client.Repositories;
 using MoneyManager.Website.Infrastructure.Session;
 using MoneyManager.Website.Models.Forms;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,88 +12,97 @@ using System.Threading.Tasks;
 
 namespace MoneyManager.Website.Controllers
 {
-    public class CategoryController : Controller
+    public class AccountController : Controller
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IAccountRepository _accountRepository;
         private readonly ISessionManager _sessionManager;
-        public CategoryController(ICategoryRepository categoryRepository, ISessionManager sessionManager)
+        public AccountController(IAccountRepository accountRepository, ISessionManager sessionManager)
         {
-            _categoryRepository = categoryRepository;
+            _accountRepository = accountRepository;
             _sessionManager = sessionManager;
         }
         public IActionResult Index()
         {
-            return View(_categoryRepository.Get());
+            return View(_accountRepository.Get());
 
         }
 
         public IActionResult Details(int id)
         {
-            Category category = _categoryRepository.GetCat(id);
-            if (category is null)
+            Account account = _accountRepository.GetAccount(id);
+            if (account is null)
                 return RedirectToAction("Index");
-            return View(new DisplayDetailsCategory() { Id = category.Id, Name = category.Name, BudgetLimit = category.BudgetLimit, UserId = _sessionManager.User.Id });
+
+            return View(new DisplayDetailsAccount()
+            {
+                Id = account.Id,
+                Description = account.Description,
+                UserId = _sessionManager.User.Id
+            });
         }
 
         public IActionResult Create()
         {
-            CreateCategoryForm form = new CreateCategoryForm();
+            CreateAccountForm form = new CreateAccountForm();
             return View(form);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CreateCategoryForm form)
+        public IActionResult Create(CreateAccountForm form)
         {
             if (!ModelState.IsValid)
             {
                 return View(form);
             }
-            Category newCategory = new Category(form.Name, form.BudgetLimit, _sessionManager.User.Id);
-            _categoryRepository.Insert(newCategory);
+            Account newAccount = new Account(_sessionManager.User.Id, form.Description);
+            _accountRepository.Insert(newAccount);
             return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int id)
         {
-            Category category = _categoryRepository.GetCat(id);
-            if (category is null)
+            Account account = _accountRepository.GetAccount(id);
+            if (account is null)
                 return RedirectToAction("Index");
 
-            EditCategoryForm form = new EditCategoryForm()
+            EditAccountForm form = new EditAccountForm()
             {
-                Id = category.Id,
-                Name = category.Name,
-                BudgetLimit = category.BudgetLimit
+                Id = account.Id,
+                Description = account.Description
             };
             return View(form);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute]int id, EditCategoryForm form)
+        public IActionResult Edit([FromRoute] int id, EditAccountForm form)
         {
             if (!ModelState.IsValid)
             {
                 return View(form);
             }
-            _categoryRepository.Update(id, new Category(form.Name, form.BudgetLimit, _sessionManager.User.Id));
+            _accountRepository.Update(id, new Account(_sessionManager.User.Id, form.Description));
             return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)
         {
-            Category category = _categoryRepository.GetCat(id);
-            if (category is null)
+            Account account = _accountRepository.GetAccount(id);
+            if (account is null)
                 RedirectToAction("Index");
-            return View(new DisplayDetailsCategory() { Id = category.Id, Name = category.Name, BudgetLimit = category.BudgetLimit });
+            return View(new DisplayDetailsAccount()
+            {
+                Id = account.Id,
+                Description = account.Description
+            });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id, IFormCollection collection)
         {
-            _categoryRepository.Delete(id);
+            _accountRepository.Delete(id);
             return RedirectToAction("Index");
         }
     }

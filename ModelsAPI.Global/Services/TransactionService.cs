@@ -20,14 +20,14 @@ namespace ModelsAPI.Global.Services
         }
         public IEnumerable<Transaction> Get(int userId)
         {
-            Command command = new Command("Select Id, UserAccountId, DateTransact, Description, ExpenseOrIncome, Amount, CategoryId From [Transaction] WHERE UserAccountId = @UserId", false);
+            Command command = new Command("Select T.Id, UserAccountId, DateTransact, T.[Description], ExpenseOrIncome, Amount, CategoryId From [Transaction] T INNER JOIN UserAccount U ON T.UserAccountId = U.Id WHERE U.UserId = @UserId;", false);
             command.AddParameter("UserId", userId);
             return _connection.ExecuteReader(command, dr => dr.ToTransaction());
         }
 
         public Transaction GetTransact(int id, int userId)
         {
-            Command command = new Command("Select Id, UserAccountId, DateTransact, Description, ExpenseOrIncome, Amount, CategoryId From [Transaction] WHERE Id = @Id AND UserAccountId = @UserId;", false);
+            Command command = new Command("Select T.Id, UserAccountId, DateTransact, T.[Description], ExpenseOrIncome, Amount, CategoryId From [Transaction] T INNER JOIN UserAccount U ON T.UserAccountId = U.Id WHERE U.UserId = @UserId AND T.Id = @Id;", false);
             command.AddParameter("Id", id);
             command.AddParameter("UserId", userId);
             return _connection.ExecuteReader(command, dr => dr.ToTransaction()).SingleOrDefault();

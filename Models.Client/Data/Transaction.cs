@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelsAPI.Client.Data
+namespace Models.Client.Data
 {
     public class Transaction
     {
@@ -24,12 +24,10 @@ namespace ModelsAPI.Client.Data
             CategoryId = categoryId;
         }
         internal Transaction(int id, int userAccountId, DateTime dateTransact, string description, bool expenseOrIncome, double amount, int categoryId)
-            :this(userAccountId, description, expenseOrIncome, amount, categoryId)
+            : this(userAccountId, description, expenseOrIncome, amount, categoryId)
         {
             DateTransact = dateTransact;
             Id = id;
         }
-
     }
-    
 }

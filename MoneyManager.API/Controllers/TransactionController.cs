@@ -26,22 +26,18 @@ namespace MoneyManager.API.Controllers
         {
             _transaction = transaction;
         }
-
-        // GET: api/<TransactionController>
         [HttpGet]
         public IActionResult Get()
         {
             return Ok(_transaction.Get(UserId));
         }
 
-        // GET api/<TransactionController>/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             return Ok(_transaction.GetTransact(id, UserId));
         }
 
-        // POST api/<TransactionController>
         [HttpPost]
         public IActionResult Post([FromBody] TransactionForm transactionForm)
         {
@@ -49,12 +45,11 @@ namespace MoneyManager.API.Controllers
             {
                 return BadRequest(ModelState);  
             }
-            Transaction transaction = new Transaction(UserId, transactionForm.Description, transactionForm.ExpenseOrIncome, transactionForm.Amount, transactionForm.CategoryId);
+            Transaction transaction = new Transaction(transactionForm.UserAccountId, transactionForm.Description,  transactionForm.ExpenseOrIncome, transactionForm.Amount, transactionForm.CategoryId);
             _transaction.Insert(transaction);
             return Ok();
         }
 
-        // PUT api/<TransactionController>/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] UpdateTransactionForm updateTransactionForm)
         {
@@ -69,7 +64,6 @@ namespace MoneyManager.API.Controllers
             return Ok();
         }
 
-        // DELETE api/<TransactionController>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

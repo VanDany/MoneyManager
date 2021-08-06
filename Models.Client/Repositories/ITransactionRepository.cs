@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Models.Client.Repositories
 {
-    public interface ICategoryRepository
+    public interface ITransactionRepository
     {
-        IEnumerable<Category> Get();
-        void Insert(Category category);
-        void Update(int id, Category category);
+        IEnumerable<Transaction> Get();
+        void Insert(Transaction transaction);
+        void Update(int id, Transaction transaction);
         void Delete(int id);
-        Category GetCat(int id);
+        Transaction GetTransact(int id);
     }
 }

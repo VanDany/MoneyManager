@@ -1,0 +1,195 @@
+﻿body {
+    font-family: "Open Sans", sans-serif;
+    line-height: 1.25;
+}
+
+#bin-delete {
+    height: 20px;
+}
+
+.btn {
+    border-radius: 10px;
+}
+
+.accounts {
+    display: flex;
+    flex-direction: row;
+    padding: 15px 5px;
+}
+
+#modify {
+    height: 33px;
+}
+
+.basic-info {
+    display: flex;
+    flex-direction: row;
+    padding: 15px 5px;
+}
+
+.balance {
+    padding: 15px;
+    border-radius: 10px;
+    margin-left: 50px;
+    background-color: rgb(87, 87, 87);
+    color: white;
+    font-size: 15px;
+    text-transform: uppercase;
+}
+
+table {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    table-layout: fixed;
+}
+
+    table caption {
+        font-size: 1.5em;
+        margin: .5em 0 .75em;
+    }
+
+    table tr {
+        background-color: #f8f8f8;
+        border: 1px solid #ddd;
+        padding: .35em;
+    }
+
+    table th,
+    table td {
+        padding: .625em;
+        text-align: center;
+    }
+
+    table th {
+        font-size: .85em;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+    }
+
+@media screen and (max-width: 768px) {
+    table {
+        border: 0;
+    }
+
+        table caption {
+            font-size: 1.3em;
+        }
+
+        table thead {
+            border: none;
+            clip: rect(0 0 0 0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+        }
+
+        table tr {
+            border-bottom: 3px solid #ddd;
+            display: block;
+            margin-bottom: .625em;
+        }
+
+        table td {
+            border-bottom: 1px solid #ddd;
+            display: block;
+            font-size: .8em;
+            text-align: right;
+        }
+
+            table td::before {
+                /*
+      * aria-label has no advantage, it won't be read inside a table
+      content: attr(aria-label);
+      */
+                content: attr(data-label);
+                color: black;
+                float: left;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            table td:last-child {
+                border-bottom: 0;
+            }
+
+    #bin-delete {
+        height: 20px;
+    }
+
+    .accounts {
+        font-size: 12px;
+    }
+
+    .balance {
+        font-size: 13px;
+    }
+}
+
+div.title {
+    background-color: rgba(61, 124, 77, 0.15);
+    border: 1px solid rgba(61, 124, 66, 0.2);
+}
+
+div.item {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    background-color: rgba(86,61,124,.15);
+    border: 1px solid rgba(86,61,124,.2);
+}
+
+/* Select menu */
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    outline: 0;
+    box-shadow: none;
+    border: 0 !important;
+    background: #5c6664;
+    background-image: none;
+    flex: 1;
+    padding: 0 .5em;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: 'Open Sans', sans-serif;
+}
+
+    select::-ms-expand {
+        display: none;
+    }
+
+.select {
+    position: relative;
+    display: flex;
+    width: 20em;
+    height: 3em;
+    line-height: 3;
+    background: #5c6664;
+    overflow: hidden;
+    border-radius: .25em;
+}
+
+    .select::after {
+        content: '\25BC';
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0 1em;
+        background: #929292;
+        cursor: pointer;
+        pointer-events: none;
+        transition: .25s all ease;
+    }
+
+    .select:hover::after {
+        color: #23b499;
+    }
