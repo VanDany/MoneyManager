@@ -27,53 +27,14 @@
             }
         </select>
     </div>
-    <div class="balance">Montant total : @somme</div>
-    <div class="balance">Balance : @somme</div>
+    <div id="total" class="balance">Montant total : @somme</div>
+    <div id="balance" class="balance">Balance : @somme</div>
 
 </div>
 
 <div class="basic-info">
     <a id="newTransaction" asp-controller="Transaction" asp-action="Create" class="btn btn-success"> Nouvelle transaction</a>
 </div>
-
-<table>
-    <thead>
-        <tr>
-            <th scope="col">Compte</th>
-            <th scope="col">Date</th>
-            <th scope="col">Description</th>
-            <th scope="col">Catégorie</th>
-            <th scope="col">Montant</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.transaction)
-        {
-            <tr>
-                <td data-label="Compte">@Html.DisplayFor(modelItem => item.UserAccountId)</td>
-                <td data-label="Date">@Html.DisplayFor(modelItem => item.DateTransact)</td>
-                <td data-label="Description">@Html.DisplayFor(modelItem => item.Description)</td>
-                <td data-label="Catégorie">@Html.DisplayFor(modelItem => item.CategoryId)</td>
-
-                <td class="amount" data-label="Montant">
-                    @if (item.ExpenseOrIncome == true)
-                    {
-                        <span>-@item.Amount</span>
-                    }
-                    else
-                    {
-                        <span>@item.Amount</span>
-                    }
-                </td>
-                <td>
-                    <a asp-controller="Transaction" asp-action="Edit" asp-route-id=@item.Id><img id="modify" src="img/modify.png" alt="bin-del"></a>
-                    <a asp-controller="Transaction" asp-action="Delete" asp-route-id=@item.Id><img id="bin-delete" src="img/bin-delete.png" alt="bin-del"></a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
 <table id="transact-table">
     <thead>
         <tr>
@@ -87,17 +48,13 @@
     </thead>
     <tbody>
         <tr>
-            <td data-label="Compte"></td>
-            <td data-label="Date"></td>
-            <td data-label="Description"></td>
-            <td data-label="Catégorie"></td>
+            <td class="account" data-label="Compte"></td>
+            <td class="date" data-label="Date"></td>
+            <td class="description" data-label="Description"></td>
+            <td class="category" data-label="Catégorie"></td>
             <td class="amount" data-label="Montant"></td>
-            <td>
-                <a asp-controller="Transaction" asp-action="Edit"><img id="modify" src="img/modify.png" alt="bin-del"></a>
-                <a asp-controller="Transaction" asp-action="Delete"><img id="bin-delete" src="img/bin-delete.png" alt="bin-del"></a>
-            </td>
+            <td class="icons"></td>
         </tr>
-        }
     </tbody>
 </table>
 
@@ -107,6 +64,7 @@
 <script src='~/js/transactions.js'></script>
 @section scripts{
     <script type="text/javascript">
+        window.onload = GetByAjax();
     function GetByAjax() {
     let option = document.querySelector('#format');
     let button = document.getElementById("newTransaction");
@@ -124,27 +82,75 @@
             }
             else {
                 response.forEach(function (Transact) {
-                    addTransactIntoTable(Transact.id, Transact.accountId, Transact.dateTransact, Transact.description, Transact.categoryId, Transact.amount, Transact.expenseOrIncome);
-                });  
+                    addTransactIntoTable(Transact.id, Transact.userAccountId, Transact.userAccount, Transact.dateTransact, Transact.description, Transact.categoryId, Transact.name, Transact.amount, Transact.expenseOrIncome);
+                    
+                });
+                colorize();
+                updateAmount();
             }
-            
         },
         failure: function (response) {
             alert(response);
         }
     });
-        var item = $(document.getElementsByClassName('Amount'));
-        console.log(item);
-        colorizeAmount();
+        function updateAmount() {
+            let result = 0;
+            let amounts = document.getElementsByClassName('amount');
+            for (i = 0; i < amounts.length; i++) {
+                result += amounts[i];
+            }
+            document.getElementById('#total').innerHTML = result;
+        }
+        function colorize(){
+            $('#transact-table').on('click', function () {
+                var amounts = document.getElementsByClassName('amount');
+                console.log(amounts);
+                for (i = 0; i < amounts.length; i++) {
+                    if (amounts[i].innerHTML >= 0) {
+                        amounts[i].style.color = "green";
+                    }
+                    else {
+                        amounts[i].style.color = "red";
+                    }
+                }
+            })
+            
+        }
 }
-        function addTransactIntoTable(Id, AccountId, DateTransact, Description, CategoryId, Amount, ExpenseOrIncome) {
+        function addTransactIntoTable(Id, AccountId, UserAccount, DateTransact, Description, CategoryId, Name, Amount, ExpenseOrIncome) {
             if (ExpenseOrIncome == true) {
                 Amount = "-" + Amount;
             }
-            let mytable = '<tr><td data-label="Compte">' + AccountId + '</td><td data-label="Date">' + DateTransact + '</td><td data-label="Description">' + Description + '</td><td data-label="Catégorie">' + CategoryId + '</td><td data-label="Montant" class="Amount">' + Amount + '</td><td> <a href="/Transaction/Edit/' + Id + '"><img id="modify" src="img/modify.png" alt="bin-del"></a><a href="/Transaction/Delete/' + Id + '"><img id="bin-delete" src="img/bin-delete.png" alt="bin-del"></a> </td></tr>';
-            $('#transact-table').append(mytable);
+            let mytable =
+                '<tr><td data-label="NomCompte">' + UserAccount +
+                '</td><td data-label="Date">' + DateTransact +
+                '</td><td data-label="Description">' + Description +
+                '</td><td data-label="Catégorie">' + Name +
+                '</td><td data-label="Montant" class="amount">' + Amount +
+                '</td><td> <a href="/Transaction/Edit/' + Id + '"><img id="modify" src="img/modify.png" alt="bin-del"></a><a href="/Transaction/Delete/' + Id +
+                '"><img id="bin-delete" src="img/bin-delete.png" alt="bin-del"></a> </td></tr>';
+            //$('.account').append(UserAccount);
+            //$('.date').append(DateTransact);
+            //$('.description').append(Description);
+            //$('.category').append(Name);
+            //$('.amount').append(Amount);
+            //$('.icons').append(mytable);
+                $('#transact-table').append(mytable);
+            }
 
-        }
+            //$('#transact-table').on('click', function () {
+            //    var amounts = document.getElementsByClassName('amount');
+            //    console.log(amounts);
+            //    for (i = 0; i < amounts.length; i++) {
+            //        if (amounts[i].innerHTML >= 0) {
+            //            amounts[i].style.color = "green";
+            //        }
+            //        else {
+            //            amounts[i].style.color = "red";
+            //        }
+            //    }
+            //})
+        
         
     </script>
     
