@@ -19,11 +19,11 @@
 }
 <div class="accounts">
     <div class="select">
-        <select onchange="addAccountId()" name="format" id="format">
+        <select onchange="GetByAjax()" name="format" id="format">
             <option selected>Tous les comptes</option>
-            @foreach(var item in Model.account)
+            @foreach (var item in Model.account)
             {
-        <option value="@item.Id">@item.Description</option>
+                <option value="@item.Id">@item.Description</option>
             }
         </select>
     </div>
@@ -74,10 +74,79 @@
         }
     </tbody>
 </table>
-
+<table id="transact-table">
+    <thead>
+        <tr>
+            <th scope="col">Compte</th>
+            <th scope="col">Date</th>
+            <th scope="col">Description</th>
+            <th scope="col">Catégorie</th>
+            <th scope="col">Montant</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td data-label="Compte"></td>
+            <td data-label="Date"></td>
+            <td data-label="Description"></td>
+            <td data-label="Catégorie"></td>
+            <td class="amount" data-label="Montant"></td>
+            <td>
+                <a asp-controller="Transaction" asp-action="Edit"><img id="modify" src="img/modify.png" alt="bin-del"></a>
+                <a asp-controller="Transaction" asp-action="Delete"><img id="bin-delete" src="img/bin-delete.png" alt="bin-del"></a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src='~/js/transactions.js'></script>
+@section scripts{
+    <script type="text/javascript">
+    function GetByAjax() {
+    let option = document.querySelector('#format');
+    let button = document.getElementById("newTransaction");
+    button.setAttribute("href", "/Transaction/Create/" + option.value);
+    console.log(button);
+    $.ajax({
+        url: '@Url.Action("GetByAccount")',
+        type: "POST",
+        data: { id: option.value },
+        dataType: "json",
+        success: function (response) {
+            $("#transact-table tbody tr").remove();
+            if (response.length === 0) {
+                $("transact-table").append("<tr><td>Transacts not found!</td></tr>");
+            }
+            else {
+                response.forEach(function (Transact) {
+                    addTransactIntoTable(Transact.id, Transact.accountId, Transact.dateTransact, Transact.description, Transact.categoryId, Transact.amount, Transact.expenseOrIncome);
+                });  
+            }
+            
+        },
+        failure: function (response) {
+            alert(response);
+        }
+    });
+        var item = $(document.getElementsByClassName('Amount'));
+        console.log(item);
+        colorizeAmount();
+}
+        function addTransactIntoTable(Id, AccountId, DateTransact, Description, CategoryId, Amount, ExpenseOrIncome) {
+            if (ExpenseOrIncome == true) {
+                Amount = "-" + Amount;
+            }
+            let mytable = '<tr><td data-label="Compte">' + AccountId + '</td><td data-label="Date">' + DateTransact + '</td><td data-label="Description">' + Description + '</td><td data-label="Catégorie">' + CategoryId + '</td><td data-label="Montant" class="Amount">' + Amount + '</td><td> <a href="/Transaction/Edit/' + Id + '"><img id="modify" src="img/modify.png" alt="bin-del"></a><a href="/Transaction/Delete/' + Id + '"><img id="bin-delete" src="img/bin-delete.png" alt="bin-del"></a> </td></tr>';
+            $('#transact-table').append(mytable);
+
+        }
+        
+    </script>
+    
+}
 <link href="~/css/transactions.css" rel="stylesheet" />
