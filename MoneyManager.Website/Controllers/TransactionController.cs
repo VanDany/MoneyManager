@@ -39,14 +39,13 @@ namespace MoneyManager.Website.Controllers
             return Json(categories);
         }
         [HttpGet]
-        public JsonResult GetByAccount(int id)
+        public IActionResult Movements(int id)
         {
+            IEnumerable<Transaction> transactions = _transactionRepository.Get();
+            IEnumerable<Account> accounts = _accountRepository.Get();
+            IEnumerable<Category> categories = _categoryRepository.Get();
             if (id==0)
             {
-                IEnumerable<Transaction> transactions = _transactionRepository.Get();
-                IEnumerable<Account> accounts = _accountRepository.Get();
-                IEnumerable<Category> categories = _categoryRepository.Get();
-                
                 var innerJoin = transactions.Join(
                     accounts,
                     transactions => transactions.UserAccountId,
@@ -65,11 +64,11 @@ namespace MoneyManager.Website.Controllers
                     }).Join(categories,
                     transactions => transactions.CategoryId,
                     categories => categories.Id,
-                    (transactions, categories) => new
+                    (transactions, categories) => new DisplayTransaction()
                     {
                         Id = transactions.Id,
                         UserAccountId = transactions.UserAccountId,
-                        UserAccount = transactions.UserAccount,
+                        AccountName = transactions.UserAccount,
                         DateTransact = transactions.DateTransact,
                         Description = transactions.Description,
                         ExpenseOrIncome = transactions.ExpenseOrIncome,
@@ -77,13 +76,11 @@ namespace MoneyManager.Website.Controllers
                         CategoryId = transactions.CategoryId,
                         Name = categories.Name
                     });
-                return Json(innerJoin);
+                //return Json(innerJoin);
+                return PartialView(innerJoin);
             }
             else
             {
-                IEnumerable<Transaction> transactions = _transactionRepository.Get();
-                IEnumerable<Account> accounts = _accountRepository.Get();
-                IEnumerable<Category> categories = _categoryRepository.Get();
                 var innerJoin = transactions.Join(
                     accounts,
                     transactions => transactions.UserAccountId,
@@ -102,21 +99,20 @@ namespace MoneyManager.Website.Controllers
                     }).Join(categories,
                     transactions => transactions.CategoryId,
                     categories => categories.Id,
-                    (transactions, categories) => new
+                    (transactions, categories) => new DisplayTransaction()
                     {
                         Id = transactions.Id,
                         UserAccountId = transactions.UserAccountId,
-                        UserAccount = transactions.UserAccount,
+                        AccountName = transactions.UserAccount,
                         DateTransact = transactions.DateTransact,
                         Description = transactions.Description,
                         ExpenseOrIncome = transactions.ExpenseOrIncome,
                         Amount = transactions.Amount,
                         CategoryId = transactions.CategoryId,
                         Name = categories.Name
-                    }).Where(f => f.UserAccountId == id); 
-                return Json(innerJoin);
+                    }).Where(f => f.UserAccountId == id);
+                return PartialView(innerJoin);
             }
-            
         }
         public IActionResult Details(int id)
         {
@@ -133,8 +129,7 @@ namespace MoneyManager.Website.Controllers
                 CategoryId = transaction.CategoryId 
             });
         }
-
-        public IActionResult Create(int id)
+        public IActionResult CreateOLD(int id)
         {
             CreateTransactionForm form = new CreateTransactionForm();
             form.UserAccountId = id;
@@ -142,13 +137,13 @@ namespace MoneyManager.Website.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Create(CreateTransactionForm form)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(form);
-            }
+            Console.WriteLine(form);
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(form);
+            //}
             Transaction newTransaction = new Transaction(form.UserAccountId, form.Description, form.ExpenseOrIncome, form.Amount, form.CategoryId);
             _transactionRepository.Insert(newTransaction);
             return RedirectToAction("Index");

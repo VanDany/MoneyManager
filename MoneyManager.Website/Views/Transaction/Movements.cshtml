@@ -1,0 +1,51 @@
+﻿@model IEnumerable<DisplayTransaction>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<link href="/css/transactions.css" rel="stylesheet" />
+<table>
+    <thead>
+        <tr>
+            <td>Compte</td>
+            <td>Date</td>
+            <td>Description</td>
+            <td>Catégorie</td>
+            <td>Montant</td>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td id="account" data-label="NomCompte">
+                @item.AccountName
+            </td>
+            <td id="date" data-label="Date">
+                @item.DateTransact
+            </td>
+            <td id="description" data-label="Description">
+                @item.Description
+            </td>
+            <td id="category" data-label="Catégorie">
+                @item.Name
+            </td>
+            @if (item.ExpenseOrIncome == true)
+            {
+                <td id="montant" data-label="Montant" class="retrait">
+                    -@item.Amount
+                </td>
+            }
+            else
+            {
+                <td id="montant" data-label="Montant" class="depot">
+                    @item.Amount
+                </td>
+
+            }
+
+            <td>
+                <a href="/Transaction/Edit/@item.Id"><img id="modify" src="img/modify.png" alt="bin-modify"></a>
+                <a href="/Transaction/Delete/@item.Id"><img id="bin-delete" src="img/bin-delete.png" alt="bin-del"></a>
+            </td>
+        </tr>
+     }
+</table>
