@@ -32,13 +32,13 @@ namespace MoneyManager.Website.Controllers
             return View(TA);
 
         }
-        [HttpPost]
+        [HttpGet]
         public JsonResult GetCategories()
         {
             IEnumerable<Category> categories = _categoryRepository.Get();
             return Json(categories);
         }
-        [HttpPost]
+        [HttpGet]
         public JsonResult GetByAccount(int id)
         {
             if (id==0)

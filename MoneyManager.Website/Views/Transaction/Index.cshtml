@@ -56,7 +56,7 @@
                     </div>
                     <div class="form-group form-check">
                         <label class="form-check-label">
-                            Expense?
+                            Dépense ?
                             <input type="checkbox" id="ExpenseOrIncome" />
                         </label>
                     </div>
@@ -65,9 +65,8 @@
                         <input id="Amount" class="form-control" />
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Category</label>
-                        <select id="CategoryId" class="form-control">
-                            <option value="Id">Alimentation</option>
+                        <label class="control-label">Catégorie</label>
+                        <select id="Categories" class="form-control">
                         </select>
                     </div>
                     <div class="form-group">
@@ -125,7 +124,7 @@
             console.log(button);
             $.ajax({
                 url: '@Url.Action("GetByAccount")',
-                type: "POST",
+                type: "GET",
                 data: { id: option.value },
                 dataType: "json",
                 success: function (response) {
@@ -195,8 +194,40 @@
                     }
                 }
             })
-
-
+function openModal(modal) {
+    if (modal == null) return
+    modal.classList.add('active');
+    overlay.classList.add('active');
+    $.ajax({
+        url: '@Url.Action("GetCategories")',
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            var element = document.getElementById("Categories");
+            while (element.firstChild) {
+                element.removeChild(element.lastChild);
+            }
+            if (response.length === 0) {
+                $("Categories").append("<option>Categories not found!</option>");
+            }
+            else {
+                response.forEach(function (Category) {
+                    addCategoryIntoSelect(Category.name, Category.id);
+                });
+            }
+        },
+        failure: function (response) {
+            alert(response);
+        }
+    });
+    function addCategoryIntoSelect(Name, Id) {
+        let option = document.createElement("option");
+        option.text = Name;
+        option.value = Id;
+        var element = document.getElementById("Categories");
+        element.appendChild(option);
+    }
+}
     </script>
 
 }
