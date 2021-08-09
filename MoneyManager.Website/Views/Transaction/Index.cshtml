@@ -42,8 +42,41 @@
         <button data-close-button class="close-button">&times;</button>
     </div>
     <div class="modal-body">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </div>
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group" style="display:none;">
+                        <label class="control-label">AccountId</label>
+                        <input id = "UserAccountId" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Description</label>
+                        <input id="Description" class="form-control" />
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            Expense?
+                            <input type="checkbox" id="ExpenseOrIncome" />
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label id="Amount" class="control-label">Montant</label>
+                        <input id="Amount" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Category</label>
+                        <select id="CategoryId" class="form-control">
+                            <option value="Id">Alimentation</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+         </div>
+     </div>   
 </div>
 
 <div id="overlay"></div>
@@ -85,43 +118,71 @@
                 doc.style.display = "block";
             }, millisecondsToWait);
         }
-    function GetByAjax() {
-    let option = document.querySelector('#format');
-    let button = document.getElementById("newTransaction");
-    //button.setAttribute("href", "/Transaction/Create/" + option.value);
-    console.log(button);
-    $.ajax({
-        url: '@Url.Action("GetByAccount")',
-        type: "POST",
-        data: { id: option.value },
-        dataType: "json",
-        success: function (response) {
-            $("#transact-table tbody tr").remove();
-            if (response.length === 0) {
-                $("transact-table").append("<tr><td>Transacts not found!</td></tr>");
-            }
-            else {
-                response.forEach(function (Transact) {
-                    addTransactIntoTable(Transact.id, Transact.userAccountId, Transact.userAccount, Transact.dateTransact, Transact.description, Transact.categoryId, Transact.name, Transact.amount, Transact.expenseOrIncome);
+        function GetByAjax() {
+            let option = document.querySelector('#format');
+            let button = document.getElementById("newTransaction");
+            //button.setAttribute("href", "/Transaction/Create/" + option.value);
+            console.log(button);
+            $.ajax({
+                url: '@Url.Action("GetByAccount")',
+                type: "POST",
+                data: { id: option.value },
+                dataType: "json",
+                success: function (response) {
+                    $("#transact-table tbody tr").remove();
+                    if (response.length === 0) {
+                        $("transact-table").append("<tr><td>Transacts not found!</td></tr>");
+                    }
+                    else {
+                        response.forEach(function (Transact) {
+                            addTransactIntoTable(Transact.id, Transact.userAccountId, Transact.userAccount, Transact.dateTransact, Transact.description, Transact.categoryId, Transact.name, Transact.amount, Transact.expenseOrIncome);
 
-                });
-                colorize();
-                updateAmount();
+                        });
+                        colorize();
+                        updateAmount();
+                    }
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
+            function addTransactIntoTable(Id, AccountId, UserAccount, DateTransact, Description, CategoryId, Name, Amount, ExpenseOrIncome) {
+                if (ExpenseOrIncome == true) {
+                    Amount = "-" + Amount;
+                }
+                let mytable =
+                    '<tr><td data-label="NomCompte">' + UserAccount +
+                    '</td><td data-label="Date">' + DateTransact +
+                    '</td><td data-label="Description">' + Description +
+                    '</td><td data-label="Catégorie">' + Name +
+                    '</td><td data-label="Montant" class="amount">' + Amount +
+                    '</td><td> <a href="/Transaction/Edit/' + Id + '"><img id="modify" src="img/modify.png" alt="bin-del"></a><a href="/Transaction/Delete/' + Id +
+                    '"><img id="bin-delete" src="img/bin-delete.png" alt="bin-del"></a> </td></tr>';
+                $('#transact-table').append(mytable);
             }
-        },
-        failure: function (response) {
-            alert(response);
-        }
-    });
-        function updateAmount() {
-            let result = 0;
-            let amounts = document.getElementsByClassName('amount');
-            for (i = 0; i < amounts.length; i++) {
-                result += amounts[i];
+            function colorize() {
+                $('#transact-table').on('click', function () {
+                    var amounts = document.getElementsByClassName('amount');
+                    console.log(amounts);
+                    for (i = 0; i < amounts.length; i++) {
+                        if (amounts[i].innerHTML >= 0) {
+                            amounts[i].style.color = "green";
+                        }
+                        else {
+                            amounts[i].style.color = "red";
+                        }
+                    }
+                })
             }
-            /*document.getElementById('#total').innerHTML = result;*/
+            function updateAmount() {
+                let result = 0;
+                let amounts = document.getElementsByClassName('amount');
+                for (i = 0; i < amounts.length; i++) {
+                    result += amounts[i];
+                }
+                /*document.getElementById('#total').innerHTML = result;*/
+            }
         }
-        function colorize(){
             $('#transact-table').on('click', function () {
                 var amounts = document.getElementsByClassName('amount');
                 console.log(amounts);
@@ -134,42 +195,6 @@
                     }
                 }
             })
-
-        }
-}
-        function addTransactIntoTable(Id, AccountId, UserAccount, DateTransact, Description, CategoryId, Name, Amount, ExpenseOrIncome) {
-            if (ExpenseOrIncome == true) {
-                Amount = "-" + Amount;
-            }
-            let mytable =
-                '<tr><td data-label="NomCompte">' + UserAccount +
-                '</td><td data-label="Date">' + DateTransact +
-                '</td><td data-label="Description">' + Description +
-                '</td><td data-label="Catégorie">' + Name +
-                '</td><td data-label="Montant" class="amount">' + Amount +
-                '</td><td> <a href="/Transaction/Edit/' + Id + '"><img id="modify" src="img/modify.png" alt="bin-del"></a><a href="/Transaction/Delete/' + Id +
-                '"><img id="bin-delete" src="img/bin-delete.png" alt="bin-del"></a> </td></tr>';
-            //$('.account').append(UserAccount);
-            //$('.date').append(DateTransact);
-            //$('.description').append(Description);
-            //$('.category').append(Name);
-            //$('.amount').append(Amount);
-            //$('.icons').append(mytable);
-                $('#transact-table').append(mytable);
-            }
-
-            //$('#transact-table').on('click', function () {
-            //    var amounts = document.getElementsByClassName('amount');
-            //    console.log(amounts);
-            //    for (i = 0; i < amounts.length; i++) {
-            //        if (amounts[i].innerHTML >= 0) {
-            //            amounts[i].style.color = "green";
-            //        }
-            //        else {
-            //            amounts[i].style.color = "red";
-            //        }
-            //    }
-            //})
 
 
     </script>

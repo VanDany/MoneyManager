@@ -33,6 +33,12 @@ namespace MoneyManager.Website.Controllers
 
         }
         [HttpPost]
+        public JsonResult GetCategories()
+        {
+            IEnumerable<Category> categories = _categoryRepository.Get();
+            return Json(categories);
+        }
+        [HttpPost]
         public JsonResult GetByAccount(int id)
         {
             if (id==0)
