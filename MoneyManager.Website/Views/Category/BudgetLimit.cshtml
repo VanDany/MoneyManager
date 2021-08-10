@@ -1,0 +1,73 @@
+﻿@model IEnumerable<MoneyManager.Website.Models.Forms.BudgetLimitForm>
+
+@{
+    ViewData["Title"] = "BudgetLimit";
+}
+
+<h1>Gestion du budget</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Max)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Diff)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reste)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pourcentage)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td data-label="Nom de la catégorie">
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td data-label="Limite autorisée">
+                @Html.DisplayFor(modelItem => item.Max)
+            </td>
+            <td data-label="Dépenses actuelles">
+                @if (item.Sum > 0)
+                {
+                    <span>0</span>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Diff)
+                }
+            </td>
+            <td data-label="Reste">
+                @if (item.Sum > 0)
+                {
+                    @item.Max
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Reste)
+                }
+            </td>
+            <td data-label="Pourcentage">
+                @if (item.Sum > 0)
+                {
+                    <span>0%</span>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Pourcentage)
+                    <span>%</span>
+                }
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

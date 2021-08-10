@@ -2,11 +2,15 @@
     font-family: "Open Sans", sans-serif;
     line-height: 1.25;
 }
-
 #bin-delete {
     height: 20px;
 }
-
+#modify {
+    height: 33px;
+}
+#newTransaction{
+    color:white;
+}
 .btn {
     border-radius: 10px;
 }
@@ -16,23 +20,19 @@
     flex-direction: row;
     padding: 15px 5px;
 }
-
-#modify {
-    height: 33px;
-}
-
-.basic-info {
-    display: flex;
-    flex-direction: row;
-    padding: 15px 5px;
-}
-
 .balance {
     padding: 15px;
     border-radius: 10px;
     margin-left: 50px;
     background-color: rgb(87, 87, 87);
     color: white;
+    font-size: 15px;
+    text-transform: uppercase;
+}
+.manageB {
+    padding: 15px;
+    border-radius: 10px;
+    margin-left: 50px;
     font-size: 15px;
     text-transform: uppercase;
 }
@@ -132,6 +132,9 @@ table {
     }
 
     .balance {
+        font-size: 13px;
+    }
+    .manageB{
         font-size: 13px;
     }
 }

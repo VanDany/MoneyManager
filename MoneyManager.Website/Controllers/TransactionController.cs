@@ -129,21 +129,13 @@ namespace MoneyManager.Website.Controllers
                 CategoryId = transaction.CategoryId 
             });
         }
-        public IActionResult CreateOLD(int id)
-        {
-            CreateTransactionForm form = new CreateTransactionForm();
-            form.UserAccountId = id;
-            return View(form);
-        }
-
         [HttpPost]
         public IActionResult Create(CreateTransactionForm form)
         {
-            Console.WriteLine(form);
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(form);
-            //}
+            if (!ModelState.IsValid)
+            {
+                return View(form);
+            }
             Transaction newTransaction = new Transaction(form.UserAccountId, form.Description, form.ExpenseOrIncome, form.Amount, form.CategoryId);
             _transactionRepository.Insert(newTransaction);
             return RedirectToAction("Index");

@@ -4,41 +4,41 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>Catégories</h1>
+    <div class="basic-info">
+        <a id="newCategory" asp-controller="Category" asp-action="Create" class="btn btn-success"> Nouvelle catégorie</a>
+    </div>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BudgetLimit)
-            </th>
-            <th></th>
+            <td>
+                Nom de la catégorie
+            </td>
+            <td>
+                Budget limite
+            </td>
+            <td></td>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
+            <td data-label="Nom catégorie">
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BudgetLimit)
+            <td data-label="budget limite">
+                @if (item.BudgetLimit == null)
+                {
+                    <span>/</span>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.BudgetLimit)
+                }
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id}) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                <a href="/Category/Edit/@item.Id"><img id="modify" src="img/modify.png" alt="bin-modify"></a>
+                <a href="/Category/Delete/@item.Id"><img id="bin-delete" src="img/bin-delete.png" alt="bin-del"></a>
             </td>
         </tr>
 }

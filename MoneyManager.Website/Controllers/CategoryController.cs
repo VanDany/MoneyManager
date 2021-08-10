@@ -15,25 +15,44 @@ namespace MoneyManager.Website.Controllers
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly ISessionManager _sessionManager;
-        public CategoryController(ICategoryRepository categoryRepository, ISessionManager sessionManager)
+        private readonly ITransactionRepository _transactionRepository;
+        public CategoryController(ICategoryRepository categoryRepository, ITransactionRepository transactionRepository, ISessionManager sessionManager)
         {
             _categoryRepository = categoryRepository;
             _sessionManager = sessionManager;
+            _transactionRepository = transactionRepository;
         }
         public IActionResult Index()
         {
             return View(_categoryRepository.Get());
-
         }
 
-        public IActionResult Details(int id)
+        //public IActionResult Details(int id)
+        //{
+        //    Category category = _categoryRepository.GetCat(id);
+        //    if (category is null)
+        //        return RedirectToAction("Index");
+        //    return View(new DisplayDetailsCategory() { Id = category.Id, Name = category.Name, BudgetLimit = category.BudgetLimit, UserId = _sessionManager.User.Id });
+        //}
+        public IActionResult BudgetLimit()
         {
-            Category category = _categoryRepository.GetCat(id);
-            if (category is null)
-                return RedirectToAction("Index");
-            return View(new DisplayDetailsCategory() { Id = category.Id, Name = category.Name, BudgetLimit = category.BudgetLimit, UserId = _sessionManager.User.Id });
-        }
+            IEnumerable<Transaction> transactions = _transactionRepository.Get();
+            IEnumerable<Category> categories = _categoryRepository.Get();
+            IEnumerable<Category> catWithBudget = categories.Where(c => c.BudgetLimit != null);
+            var budget = transactions.Select(t => new
+            {
+                Amount = (t.ExpenseOrIncome) ? t.Amount * -1 : t.Amount,
+                CategoryId = t.CategoryId
 
+            }).GroupBy(g => g.CategoryId).Join(catWithBudget, g => g.Key, c => c.Id, (g, c) => new BudgetLimitForm()
+            {
+                CategoryId = g.Key,
+                CategoryName = c.Name,
+                Sum = g.Sum(i=> i.Amount),
+                Max = c.BudgetLimit
+            });
+            return View(budget);
+        }
         public IActionResult Create()
         {
             CreateCategoryForm form = new CreateCategoryForm();

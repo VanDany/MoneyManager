@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MoneyManager.Website.Infrastructure.Session;
 using MoneyManager.Website.Models;
 using System;
 using System.Collections.Generic;
@@ -12,15 +13,25 @@ namespace MoneyManager.Website.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ISessionManager _sessionManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ISessionManager sessionManager)
         {
             _logger = logger;
+            _sessionManager = sessionManager;
         }
 
         public IActionResult Index()
         {
-            return View();
+            if (_sessionManager.User == null)
+            {
+                return RedirectToAction("Index", "Auth"); 
+            }
+            else
+            {
+                return RedirectToAction("Index", "Transaction");
+            }
+            
         }
 
         public IActionResult Privacy()

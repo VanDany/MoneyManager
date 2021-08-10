@@ -23,6 +23,7 @@ namespace MoneyManager.Website.Controllers
         }
         public IActionResult Index()
         {
+            
             return View(_accountRepository.Get());
 
         }

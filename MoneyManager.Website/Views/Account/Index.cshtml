@@ -4,42 +4,28 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>Comptes</h1>
+    <div class="basic-info">
+        <a id="newAccount" asp-controller="Account" asp-action="Create" class="btn btn-success"> Ajouter un compte</a>
+    </div>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th></th>
+            <td>
+                Nom du compte
+            </td>
+            <td></td>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
+            <td data-label="Nom du Compte">
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                <a href="/Account/Edit/@item.Id"><img id="modify" src="img/modify.png" alt="bin-modify"></a>
+                <a href="/Account/Delete/@item.Id"><img id="bin-delete" src="img/bin-delete.png" alt="bin-del"></a>
             </td>
         </tr>
 }

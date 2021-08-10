@@ -5,36 +5,23 @@
 }
 
 <h1>Transactions</h1>
-@{double somme = 0;}
-@foreach (var item in Model.transaction)
-{
-    @if (item.ExpenseOrIncome == true)
-    {
-        somme -= item.Amount;
-    }
-    else
-    {
-        somme += item.Amount;
-    }
-}
 <div class="accounts">
     <div class="select">
         <select onchange="GetByAjax()" name="format" id="format">
-            <option value= "0" selected>Tous les comptes</option>
+            <option value="0" selected>Tous les comptes</option>
             @foreach (var item in Model.account)
             {
                 <option value="@item.Id">@item.Description</option>
             }
         </select>
     </div>
-    <div id="total" class="balance">Montant total : @somme</div>
-    <div id="balance" class="balance">Balance : @somme</div>
-
+    <div id="total" class="balance"></div>
+    <a type="button" class="btn btn-warning manageB" asp-controller="Account" asp-action="Index"> Gérer les comptes</a>
+    <a type="button" class="btn btn-warning manageB" asp-controller="Category" asp-action="Index"> Gérer les catégories</a>
 </div>
 
 <div class="basic-info">
-    @*<a asp-controller="Transaction" asp-action="Create" class="btn btn-success"> Nouvelle transaction</a>*@
-    <a data-transactWindow-target="#TransactWindows" class="btn btn-success"> Nouvelle transaction</a>
+    <a id="newTransaction" data-transactWindow-target="#TransactWindows" class="btn btn-success"> Nouvelle transaction</a>
 </div>
 <div class="transactWindow" id="transactWindow">
     <div class="modal-header">
@@ -48,7 +35,7 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group" style="display:none;">
                         <label class="control-label">AccountId</label>
-                        <input id ="UserAccountId" class="form-control" />
+                        <input id="UserAccountId" class="form-control" />
                     </div>
                     <div class="form-group">
                         <label class="control-label">Description</label>
@@ -61,7 +48,7 @@
                         </label>
                     </div>
                     <div class="form-group">
-                        <label class="control-label"></label>
+                        <label class="control-label">Montant</label>
                         <input id="Amount" class="form-control" />
                     </div>
                     <div class="form-group">
@@ -70,12 +57,12 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <input type="button" id="btnSubmit" onclick="PostByAjax()" value="Create" class="btn btn-primary" />
+                        <input type="button" id="btnSubmit" onclick="PostByAjax()" value="Valider la transaction" class="btn btn-primary" />
                     </div>
                 </form>
             </div>
-         </div>
-     </div>   
+        </div>
+    </div>
 </div>
 <div id="overlay"></div>
 <table id="transact-table">
@@ -98,40 +85,7 @@
                 doc.style.display = "block";
             }, millisecondsToWait);
         }
-       
-        function PostByAjax() {
-            let option = document.querySelector('#format');
-            let description = document.getElementById('Description');
-            let expense = $('#ExpenseOrIncome').prop('checked') == true ? "true":"false";
-            console.log(expense);
-            let amount = document.getElementById('Amount');
-            let cat = document.getElementById('Categories');
-            console.log(cat);
-            let categories = $('#Categories').val();
-            console.log(categories);
-            let formData = new FormData();
-            formData.append("UserAccountId", option.options[option.selectedIndex].value);
-            formData.append("Description", description.value);
-            formData.append("ExpenseOrIncome", expense);
-            formData.append("Amount", amount.value);
-            formData.append("CategoryId", categories);
-            for (var value of formData.values()) {
-                console.log(value);
-            }
-            $.ajax({
-                url: '/Transaction/Create',
-                type: 'POST',
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: formData,
-                success: function (response) {
-                    const modal = document.querySelector('#transactWindow');
-                    closeModal(modal);
-                    GetByAjax();
-                }
-            });
-        }
+
 function openModal(modal) {
     if (modal == null) return
     modal.classList.add('active');

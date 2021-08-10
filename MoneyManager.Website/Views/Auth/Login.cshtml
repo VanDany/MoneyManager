@@ -7,24 +7,24 @@
     </head>
     <div class="login-wrap">
         <div class="login-html">
-            <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
-            <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+            <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">S'identifier</label>
+            <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">S'enregistrer</label>
             <div class="login-form">
                 <div class="sign-in-htm">
                     <form asp-action="Login">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="group">
-                            <label asp-for="LoginViewModel.Email" class="label"></label>
+                            <label asp-for="LoginViewModel.Email" class="label">Adresse e-mail</label>
                             <input asp-for="LoginViewModel.Email" class="input" />
                             <span asp-validation-for="LoginViewModel.Email" class="text-danger"></span>
                         </div>
                         <div class="group">
-                            <label asp-for="LoginViewModel.Password" class="label"></label>
+                            <label asp-for="LoginViewModel.Password" class="label">Mot de passe</label>
                             <input asp-for="LoginViewModel.Password" class="input" />
                             <span asp-validation-for="LoginViewModel.Password" class="text-danger"></span>
                         </div>
                         <div class="group">
-                            <input type="submit" class="button" value="Login">
+                            <input type="submit" class="button" value="Valider">
                         </div>
                     </form>
                     <div class="hr"></div>
@@ -33,27 +33,27 @@
                     <form asp-action="Register">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="group">
-                            <label asp-for="RegisterViewModel.Username" class="label"></label>
+                            <label asp-for="RegisterViewModel.Username" class="label">Nom d'utlisateur</label>
                             <input asp-for="RegisterViewModel.Username" class="input" />
                             <span asp-validation-for="RegisterViewModel.Username" class="text-danger"></span>
                         </div>
                         <div class="group">
-                            <label asp-for="RegisterViewModel.Password" class="label"></label>
+                            <label asp-for="RegisterViewModel.Password" class="label">Mot de passe</label>
                             <input asp-for="RegisterViewModel.Password" class="input" />
                             <span asp-validation-for="RegisterViewModel.Password" class="text-danger"></span>
                         </div>
                         <div class="group">
-                            <label asp-for="RegisterViewModel.Confirm" class="label"></label>
+                            <label asp-for="RegisterViewModel.Confirm" class="label">Confirmer le mot de passe</label>
                             <input asp-for="RegisterViewModel.Confirm" class="input" />
                             <span asp-validation-for="RegisterViewModel.Confirm" class="text-danger"></span>
                         </div>
                         <div class="group">
-                            <label asp-for="RegisterViewModel.Email" class="label"></label>
+                            <label asp-for="RegisterViewModel.Email" class="label">Adresse e-mail</label>
                             <input asp-for="RegisterViewModel.Email" class="input" />
                             <span asp-validation-for="RegisterViewModel.Email" class="text-danger"></span>
                         </div>
                         <div class="group">
-                            <input type="submit" class="button" value="Register">
+                            <input type="submit" class="button" value="Valider">
                         </div>
                         <div class="hr"></div>
                     </form>

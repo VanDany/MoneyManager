@@ -11,12 +11,14 @@
             <td>Description</td>
             <td>Catégorie</td>
             <td>Montant</td>
+
+            <td id="icons"></td>
         </tr>
     </thead>
     @foreach (var item in Model)
     {
         <tr>
-            <td id="account" data-label="NomCompte">
+            <td id="account" data-label="Compte">
                 @item.AccountName
             </td>
             <td id="date" data-label="Date">
