@@ -1,0 +1,45 @@
+﻿body {
+}
+progress.red {
+    background-color:red;
+    color:red;
+}
+    progress.red[value] {
+        color: red
+    }
+    progress.red::-webkit-progress-value {
+        background-color: red
+    }
+
+    progress.red::-moz-progress-bar {
+        background-color: red
+    }
+progress {
+    width:150px;
+    border: 0 none;
+    border-radius: 14px;
+    background: #444;
+}
+    progress::-moz-progress-bar {
+        border-radius: 12px;
+        background: #3CB371;
+    }
+@media screen and (max-width: 1092px) {
+    progress {
+        width: 100px;
+    }
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    progress {
+        height: 10px;
+    }
+}
+progress::-webkit-progress-bar {
+    background: transparent;
+}
+
+progress::-webkit-progress-value {
+    border-radius: 12px;
+    background: #3CB371;
+    box-shadow: inset 0 -2px 4px rgba(0,0,0,0.4), 0 2px 5px 0px rgba(0,0,0,0.3);
+} 

@@ -34,6 +34,7 @@
             </td>
             <td data-label="Limite autorisée">
                 @Html.DisplayFor(modelItem => item.Max)
+                <span>€</span>
             </td>
             <td data-label="Dépenses actuelles">
                 @if (item.Sum > 0)
@@ -43,27 +44,32 @@
                 else
                 {
                     @Html.DisplayFor(modelItem => item.Diff)
+                    <span>€</span>
                 }
             </td>
             <td data-label="Reste">
                 @if (item.Sum > 0)
                 {
                     @item.Max
+                    <span>€</span>
                 }
                 else
                 {
                     @Html.DisplayFor(modelItem => item.Reste)
+                    <span>€</span>
                 }
             </td>
             <td data-label="Pourcentage">
                 @if (item.Sum > 0)
                 {
-                    <span>0%</span>
+                    <span class="pourcent">0 %</span>
+                    <progress value="@item.Pourcentage" max="100"></progress>
                 }
                 else
                 {
-                    @Html.DisplayFor(modelItem => item.Pourcentage)
-                    <span>%</span>
+                    <span>@Html.DisplayFor(modelItem => item.Pourcentage)%</span>
+                    @*<span class="pourcent">%</span>*@
+                    <progress value="@item.Pourcentage" max="100"></progress>
                 }
 
             </td>
@@ -71,3 +77,29 @@
 }
     </tbody>
 </table>
+<link href="~/css/budgetLimit.css" rel="stylesheet" />
+<script>
+    function progress() {
+        const progressBar = document.querySelectorAll('progress');
+        progressBar.forEach(pro);
+        console.log(progressBar);
+        function pro(item, index, arr) {
+            let v = item.getAttribute("value");
+            const iter = (value = 0) => {
+                console.log(v);
+                if (value <= v) {
+                    item.setAttribute('value', value);
+                    setTimeout(() => iter(value + 1), 20);
+                }
+                if (value == 100) {
+                    item.classList.add("red");
+                }
+            };
+            iter();
+        }
+            
+        
+
+    }
+    progress();
+</script>

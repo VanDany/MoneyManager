@@ -18,7 +18,7 @@ namespace MoneyManager.Website.Models.Forms
         [DisplayName("Dépenses actuelles")]
         public double? Diff { get { return Sum*-1; } }
         [DisplayName("Reste")]
-        public double? Reste { get { return Max - Diff; } }
+        public double? Reste { get { return Math.Round((double)(Max - Diff), 2); } }
         [DisplayName("Pourcentage")]
         public double? Pourcentage { get { return Math.Round((double)(Diff/Max) * 100,0); } }
     }
