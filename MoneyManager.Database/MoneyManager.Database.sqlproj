@@ -76,6 +76,7 @@
     <Build Include="Programmability\Procedures\MMSP_RegisterUser.sql" />
     <Build Include="Programmability\Procedures\MMSP_AddTransaction.sql" />
     <Build Include="Programmability\Procedures\MMSP_AddAccount.sql" />
+    <Build Include="Programmability\Procedures\MMSP_GetPage.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MoneyManager.Database.refactorlog" />

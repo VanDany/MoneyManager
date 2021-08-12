@@ -72,6 +72,10 @@ body {
 
 /* General styles
 -------------------------------------------------- */
+#selectRows {
+    width: 150px !important;
+    margin-left: 20px;
+}
 .basic-info {
     display: flex;
     flex-direction: row;

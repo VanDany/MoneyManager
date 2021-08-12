@@ -2,8 +2,24 @@
     font-family: "Open Sans", sans-serif;
     line-height: 1.25;
 }
+.pageManager .buttonPage{
+    background-color:lightgrey;
+    height:50px;
+    width:180px;
+    border-radius:10px;
+}
+.pageManager {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 15px;
+}
 #bin-delete {
     height: 20px;
+}
+#resultByPage{
+    padding-left:15px;
+    padding-top:10px;
 }
 #modify {
     height: 33px;
@@ -153,7 +169,7 @@ div.item {
 
 /* Select menu */
 
-select {
+.selectAccount {
     -webkit-appearance: none;
     -moz-appearance: none;
     -ms-appearance: none;
@@ -171,7 +187,7 @@ select {
     font-family: 'Open Sans', sans-serif;
 }
 
-    select::-ms-expand {
+    .selectAccount::-ms-expand {
         display: none;
     }
 

@@ -4,17 +4,41 @@
     let amountsR = document.getElementsByClassName('retrait');
     for (i = 0; i < amountsD.length; i++) {
         result += parseFloat(amountsD[i].innerHTML.replace(",","."), 10);
-        console.log(parseFloat(amountsD[i].innerHTML.replace(",", "."), 10));
     }
     for (i = 0; i < amountsR.length; i++) {
         result += parseFloat(amountsR[i].innerHTML.replace(",", "."), 10);
-        console.log(parseFloat(amountsR[i].innerHTML.replace(",", "."), 10));
     }
-    console.log(result);
     document.getElementById('total').innerHTML = 'BALANCE : ' + result;
 }
-
 function GetByAjax() {
+    page++;
+    CallAjax(page);
+}
+function GetByAjaxChange() {
+
+    page = 1;
+    CallAjax(page);
+}
+function GetByAjaxCurrentPage(page) {
+
+    CallAjax(page);
+}
+function GetByAjaxMoins() {
+
+    page--;
+    if (page < 1) {
+        page = 1;
+    }
+    CallAjax(page);
+}
+
+function CallAjax(pageNum) {
+    if (page == 1) {
+        document.getElementById("PageMoinsButton").style.display = "none";
+    }
+    else {
+        document.getElementById("PageMoinsButton").style.display = "block";
+    }
     let option = document.querySelector('#format');
     if (option.value == 0) {
         document.getElementById("newTransaction").style.pointerEvents = "none";
@@ -23,17 +47,18 @@ function GetByAjax() {
     else {
         document.getElementById("newTransaction").style.pointerEvents = "auto";
     }
+    rowsSelected = document.getElementById("selectRows").value;
+    console.log(rowsSelected);
     $.ajax({
         url: "/Transaction/Movements",
         type: "GET",
-        data: { id: option.value },
+        data: { id: option.value, rows: rowsSelected, pageNumber: pageNum },
         dataType: "html",
         success: function (response) {
             $("#transact-table").html(response);
             updateAmount();
         }
     });
-    
 }
 
 function PostByAjax() {
@@ -59,7 +84,7 @@ function PostByAjax() {
         success: function (response) {
             const modal = document.querySelector('#transactWindow');
             closeModal(modal);
-            GetByAjax();
+            GetByAjaxChange();
         }
     });
 }

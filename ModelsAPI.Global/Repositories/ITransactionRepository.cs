@@ -10,6 +10,7 @@ namespace ModelsAPI.Global.Repositories
     public interface ITransactionRepository
     {
         IEnumerable<Transaction> Get(int userId);
+        IEnumerable<Transaction> GetPage(int userId, int rows, int pageNumber);
 
         Transaction GetTransact(int id, int userId);
 

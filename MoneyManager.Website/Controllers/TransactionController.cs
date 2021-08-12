@@ -39,9 +39,9 @@ namespace MoneyManager.Website.Controllers
             return Json(categories);
         }
         [HttpGet]
-        public IActionResult Movements(int id)
+        public IActionResult Movements(int id, int rows, int pageNumber)
         {
-            IEnumerable<Transaction> transactions = _transactionRepository.Get();
+            IEnumerable<Transaction> transactions = _transactionRepository.GetPage(rows, pageNumber);
             IEnumerable<Account> accounts = _accountRepository.Get();
             IEnumerable<Category> categories = _categoryRepository.Get();
             if (id==0)
@@ -76,7 +76,6 @@ namespace MoneyManager.Website.Controllers
                         CategoryId = transactions.CategoryId,
                         Name = categories.Name
                     });
-                //return Json(innerJoin);
                 return PartialView(innerJoin);
             }
             else

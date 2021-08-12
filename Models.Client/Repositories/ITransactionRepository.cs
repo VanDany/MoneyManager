@@ -10,6 +10,7 @@ namespace Models.Client.Repositories
     public interface ITransactionRepository
     {
         IEnumerable<Transaction> Get();
+        IEnumerable<Transaction> GetPage(int rows, int PageNumber);
         void Insert(Transaction transaction);
         void Update(int id, Transaction transaction);
         void Delete(int id);

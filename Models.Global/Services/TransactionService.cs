@@ -23,8 +23,16 @@ namespace Models.Global.Services
             HttpResponseMessage httpResponseMessage = _httpClient.GetAsync($"api/Transaction").Result;
             httpResponseMessage.EnsureSuccessStatusCode();
             string json = httpResponseMessage.Content.ReadAsStringAsync().Result;
-            IEnumerable<Transaction> categories = JsonSerializer.Deserialize<Transaction[]>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-            return categories;
+            IEnumerable<Transaction> transactions = JsonSerializer.Deserialize<Transaction[]>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            return transactions;
+        }
+        public IEnumerable<Transaction> GetPage(int rows, int pageNumber)
+        {
+            HttpResponseMessage httpResponseMessage = _httpClient.GetAsync($"api/Transaction/{rows}/{pageNumber}").Result;
+            httpResponseMessage.EnsureSuccessStatusCode();
+            string json = httpResponseMessage.Content.ReadAsStringAsync().Result;
+            IEnumerable<Transaction> transactions = JsonSerializer.Deserialize<Transaction[]>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            return transactions;
         }
         public void Insert(Transaction transaction)
         {

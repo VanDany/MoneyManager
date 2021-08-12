@@ -3,11 +3,10 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Transactions</h1>
+<a id="Budget" asp-controller="Category" asp-action="BudgetLimit" class="btn btn-info">Voir budget</a>
 <div class="accounts">
     <div class="select">
-        <select onchange="GetByAjax()" name="format" id="format">
+        <select class="selectAccount" onchange="GetByAjaxChange()" name="format" id="format">
             <option value="0" selected>Tous les comptes</option>
             @foreach (var item in Model.account)
             {
@@ -22,6 +21,13 @@
 
 <div class="basic-info">
     <a id="newTransaction" data-transactWindow-target="#TransactWindows" class="btn btn-success"> Nouvelle transaction</a>
+    <div id="resultByPage">Résultats par page : </div>
+    <select onchange="GetByAjaxCurrentPage(page)" name="selectRows" id="selectRows">
+        <option value="30000" selected>Tout</option>
+        <option value="2">2</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+    </select>
 </div>
 <div class="transactWindow" id="transactWindow">
     <div class="modal-header">
@@ -67,6 +73,10 @@
 <div id="overlay"></div>
 <table id="transact-table">
 </table>
+<div class="pageManager">
+    <input class="buttonPage" id="PageMoinsButton" type="button" value="Page précédente" onclick="GetByAjaxMoins()">
+    <input class="buttonPage" type="button" value="Page suivante" onclick="GetByAjax()">
+</div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -75,9 +85,12 @@
 
 @section scripts{
     <script type="text/javascript">
-        window.onload = GetByAjax();
+        window.onload = Page();
+        window.onload = CallAjax(page);
         window.onload = DisplayPopup();
-
+        function Page() {
+            page = 1;
+        }
         function DisplayPopup() {
             var millisecondsToWait = 500;
             setTimeout(function () {

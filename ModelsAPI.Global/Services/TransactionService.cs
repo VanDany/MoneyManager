@@ -24,7 +24,15 @@ namespace ModelsAPI.Global.Services
             command.AddParameter("UserId", userId);
             return _connection.ExecuteReader(command, dr => dr.ToTransaction());
         }
+        public IEnumerable<Transaction> GetPage(int userId, int rows, int pageNumber)
+        {
+            Command command = new Command("MMSP_GetPage", true);
+            command.AddParameter("UserId", userId);
+            command.AddParameter("RowsOfPage", rows);
+            command.AddParameter("PageNumber", pageNumber);
 
+            return _connection.ExecuteReader(command, dr => dr.ToTransaction());
+        }
         public Transaction GetTransact(int id, int userId)
         {
             Command command = new Command("Select T.Id, UserAccountId, DateTransact, T.[Description], ExpenseOrIncome, Amount, CategoryId From [Transaction] T INNER JOIN UserAccount U ON T.UserAccountId = U.Id WHERE U.UserId = @UserId AND T.Id = @Id;", false);

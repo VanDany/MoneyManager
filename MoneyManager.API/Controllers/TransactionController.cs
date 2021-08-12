@@ -31,6 +31,11 @@ namespace MoneyManager.API.Controllers
         {
             return Ok(_transaction.Get(UserId));
         }
+        [HttpGet("{rows}/{pageNumber}")]
+        public IActionResult GetPage(int rows, int pageNumber)
+        {
+            return Ok(_transaction.GetPage(UserId, rows, pageNumber));
+        }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)

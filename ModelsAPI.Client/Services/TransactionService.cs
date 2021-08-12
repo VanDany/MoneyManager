@@ -22,6 +22,10 @@ namespace ModelsAPI.Client.Services
         {
             return _globalRepository.Get(userId).Select(c => c.ToClient());
         }
+        public IEnumerable<Transaction> GetPage(int userId, int rows, int pageNumber)
+        {
+            return _globalRepository.GetPage(userId, rows, pageNumber).Select(c => c.ToClient());
+        }
         public void Insert(Transaction transact)
         {
             _globalRepository.Insert(transact.ToGlobal());
