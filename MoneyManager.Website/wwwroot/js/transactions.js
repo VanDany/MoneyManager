@@ -3,11 +3,14 @@
     let amountsD = document.getElementsByClassName('depot');
     let amountsR = document.getElementsByClassName('retrait');
     for (i = 0; i < amountsD.length; i++) {
-        result += parseFloat(amountsD[i].innerHTML, 10);
+        result += parseFloat(amountsD[i].innerHTML.replace(",","."), 10);
+        console.log(parseFloat(amountsD[i].innerHTML.replace(",", "."), 10));
     }
     for (i = 0; i < amountsR.length; i++) {
-        result += parseFloat(amountsR[i].innerHTML, 10);
+        result += parseFloat(amountsR[i].innerHTML.replace(",", "."), 10);
+        console.log(parseFloat(amountsR[i].innerHTML.replace(",", "."), 10));
     }
+    console.log(result);
     document.getElementById('total').innerHTML = 'BALANCE : ' + result;
 }
 
