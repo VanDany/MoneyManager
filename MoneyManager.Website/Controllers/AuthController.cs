@@ -62,7 +62,7 @@ namespace MoneyManager.Website.Controllers
         {
             if (!ModelState.IsValid)
                 return View(registerForm.RegisterViewModel);
-            //Why ?
+
             _authRepository.Register(new User(registerForm.RegisterViewModel.Username, registerForm.RegisterViewModel.Email, registerForm.RegisterViewModel.Password, 0, 1));
             return RedirectToAction("Login");
         }

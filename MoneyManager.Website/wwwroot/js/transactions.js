@@ -10,19 +10,23 @@
     }
     document.getElementById('total').innerHTML = 'BALANCE : ' + result;
 }
+//Call the following page
 function GetByAjax() {
     page++;
     CallAjax(page);
 }
+//Call the first page
 function GetByAjaxChange() {
 
     page = 1;
     CallAjax(page);
 }
+//Call with selected number of pages
 function GetByAjaxCurrentPage(page) {
 
     CallAjax(page);
 }
+//Call the previous page
 function GetByAjaxMoins() {
 
     page--;
@@ -56,7 +60,10 @@ function CallAjax(pageNum) {
         dataType: "html",
         success: function (response){
             $("#transact-table").html(response);
-            updateAmount();
+            //Update amount only when it's page 1 with 'tout' number of pages !
+            if (page == 1 && rowsSelected == 30000) {
+                updateAmount();
+            }
         }
     });
 }

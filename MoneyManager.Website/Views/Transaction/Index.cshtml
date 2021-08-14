@@ -91,6 +91,7 @@
         function Page() {
             page = 1;
         }
+        //Delay to hide the first minimization of the window "créer une nouvelle transaction"
         function DisplayPopup() {
             var millisecondsToWait = 500;
             setTimeout(function () {
@@ -98,7 +99,7 @@
                 doc.style.display = "block";
             }, millisecondsToWait);
         }
-
+//open window "créer une nouvelle transaction"
 function openModal(modal) {
     if (modal == null) return
     modal.classList.add('active');
@@ -136,7 +137,6 @@ function openModal(modal) {
     }
 }
     </script>
-
 }
 <link href="~/css/transactions.css" rel="stylesheet" />
 <link href="~/css/modal.css" rel="stylesheet" />
