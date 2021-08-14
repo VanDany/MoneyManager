@@ -37,14 +37,13 @@ namespace MoneyManager.Website.Controllers
         public IActionResult Login(LoginRegisterForm loginForm)
         {
             if (!ModelState.IsValid)
-                return View(loginForm.LoginViewModel);
-
+                return View(loginForm);
             User user = _authRepository.Login(loginForm.LoginViewModel.Email, loginForm.LoginViewModel.Password);
 
             if (user is null)
             {
                 ModelState.AddModelError("", "e-mail ou mot de passe invalide");
-                return View(loginForm.LoginViewModel);
+                return View(loginForm);
             }
             _sessionManager.User = new UserSession() { Id = user.Id, Username = user.Username, EmailAddress = user.EmailAddress, Token = user.Token };
 

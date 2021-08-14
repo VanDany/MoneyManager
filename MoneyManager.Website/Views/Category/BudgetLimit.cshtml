@@ -29,7 +29,7 @@
         @foreach (var item in Model)
         {
         <tr>
-            <td data-label="Nom de la catégorie">
+            <td data-label="Nom de la catégorie" class="categoryName">
                 @Html.DisplayFor(modelItem => item.CategoryName)
             </td>
             <td data-label="Limite autorisée">
@@ -43,7 +43,7 @@
                 }
                 else
                 {
-                    @Html.DisplayFor(modelItem => item.Diff)
+                <span class="expenses">@Html.DisplayFor(modelItem => item.Diff)</span>
                     <span>€</span>
                 }
             </td>
@@ -68,7 +68,6 @@
                 else
                 {
                     <span>@Html.DisplayFor(modelItem => item.Pourcentage)%</span>
-                    @*<span class="pourcent">%</span>*@
                     <progress value="@item.Pourcentage" max="100"></progress>
                 }
 
@@ -77,7 +76,9 @@
 }
     </tbody>
 </table>
+<div id="piechart"></div>
 <link href="~/css/budgetLimit.css" rel="stylesheet" />
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
     function progress() {
         const progressBar = document.querySelectorAll('progress');
@@ -86,7 +87,6 @@
         function pro(item, index, arr) {
             let v = item.getAttribute("value");
             const iter = (value = 0) => {
-                console.log(v);
                 if (value <= v) {
                     item.setAttribute('value', value);
                     setTimeout(() => iter(value + 1), 20);
@@ -97,9 +97,36 @@
             };
             iter();
         }
-            
-        
-
     }
     progress();
+    //charts
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+        let dataArray = [];
+        let exp = document.querySelectorAll('.expenses');
+        let cat = document.querySelectorAll('.categoryName');
+        for (i = 0; i < exp.length; i++) {
+            dataArray.push([cat[i].innerHTML.replace("\n",''), parseFloat(exp[i].innerHTML)]);
+        }
+        dataArray.unshift(['Category', 'Expenses']);
+        //exp.forEach(insertDataExp);
+        //function insertDataExp(item) {
+        //    let it = item.innerHTML;
+        //    console.log(it);
+        //}
+        //cat.forEach(insertDataCat);
+        //function insertDataCat(item) {
+        //    let it = item.innerHTML;
+        //    console.log(it);
+        //}
+        var data = google.visualization.arrayToDataTable(dataArray);
+
+        // Optional; add a title and set the width and height of the chart
+        var options = { 'title': 'Répartition des dépenses', 'width': 550, 'height': 400 };
+
+        // Display the chart inside the <div> element with id="piechart"
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    }
 </script>

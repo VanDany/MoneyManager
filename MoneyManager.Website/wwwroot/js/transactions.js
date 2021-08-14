@@ -54,7 +54,7 @@ function CallAjax(pageNum) {
         type: "GET",
         data: { id: option.value, rows: rowsSelected, pageNumber: pageNum },
         dataType: "html",
-        success: function (response) {
+        success: function (response){
             $("#transact-table").html(response);
             updateAmount();
         }
