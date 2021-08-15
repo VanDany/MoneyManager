@@ -45,7 +45,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Description</label>
-                        <input id="Description" class="form-control" />
+                        <input id="Description" class="form-control descriptionTransact" />
                     </div>
                     <div class="form-group form-check">
                         <label class="form-check-label">
@@ -86,56 +86,13 @@
 @section scripts{
     <script type="text/javascript">
         window.onload = Page();
+        //transaction.js
         window.onload = CallAjax(page);
+        //modal.js
         window.onload = DisplayPopup();
         function Page() {
             page = 1;
         }
-        //Delay to hide the first minimization of the window "créer une nouvelle transaction"
-        function DisplayPopup() {
-            var millisecondsToWait = 500;
-            setTimeout(function () {
-                let doc = document.getElementById("transactWindow");
-                doc.style.display = "block";
-            }, millisecondsToWait);
-        }
-//open window "créer une nouvelle transaction"
-function openModal(modal) {
-    if (modal == null) return
-    modal.classList.add('active');
-    overlay.classList.add('active');
-    $.ajax({
-        url: '@Url.Action("GetCategories")',
-        type: "GET",
-        dataType: "json",
-        success: function (response) {
-            var element = document.getElementById("Categories");
-            while (element.firstChild) {
-                element.removeChild(element.lastChild);
-            }
-            if (response.length === 0) {
-                $("Categories").append("<option>Categories not found!</option>");
-            }
-            else {
-                response.forEach(function (Category) {
-                    addCategoryIntoSelect(Category.name, Category.id);
-                });
-            }
-        },
-        failure: function (response) {
-            alert(response);
-        }
-    });
-    function addCategoryIntoSelect(Name, Id) {
-        let option = document.createElement("option");
-        option.text = Name;
-        option.value = Id;
-        var element = document.getElementById("Categories");
-        element.appendChild(option);
-        console.log(option.text);
-        console.log(option.value);
-    }
-}
     </script>
 }
 <link href="~/css/transactions.css" rel="stylesheet" />
