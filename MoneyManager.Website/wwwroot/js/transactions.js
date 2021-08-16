@@ -8,7 +8,7 @@
     for (i = 0; i < amountsR.length; i++) {
         result += parseFloat(amountsR[i].innerHTML.replace(",", "."), 10);
     }
-    document.getElementById('total').innerHTML = 'BALANCE : ' + result;
+    document.getElementById('total').innerHTML = 'BALANCE : ' + result.toFixed(2);
 }
 //Call the following page
 function GetByAjax() {
