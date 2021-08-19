@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Tools.Connections.Database" Version="1.0.1" />
+    <PackageReference Include="Tools.Connections.Database" Version="1.0.3" />
   </ItemGroup>
 
 </Project>
